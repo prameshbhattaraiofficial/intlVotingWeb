@@ -1,0 +1,156 @@
+﻿
+@using VotingAdmin.Web.Common.Paging;
+@using VotingAdmin.Web.Models.Contest;
+@model PagedResponse<ContestList>
+<div id="TablePartial">
+    <section class="">
+        <div class="pcoded-wrapper">
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+
+                                    <ul class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="index-2.html"><i class="fa-solid fa-house"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="#!">Contest Lists</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <div class="card code-table">
+                                <div class="card-header cursor" data-toggle="collapse" href="#quick-search" aria-expanded="true">
+                                    <h5>Quick Search</h5>
+                                    <div class="card-header-right">
+                                        <p class="float-right m-t-5"><i class="fas fa-chevron-down  fa-1x "></i></p>
+                                    </div>
+                                </div>
+                                @* Quick Search/ Filter *@
+                                <div class="collapse" id="quick-search">
+                                    <partial name="_ContestFilter" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- [ configuration table ] start -->
+                                <!-- [ Fixed Header ] start -->
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="m-b-10">Contest Lists</h5>
+                                            <div class="card-header-right">
+                                                @if (ViewBag.create)
+                                                {
+                                                    <a onclick="ShowPopUp('@Url.Action("CreateContest","VotingCompetition")','Add Contest')" class="btn btn-primary btn-shadow-2 btn-sm text-white">
+                                                    <i class="fa-solid fa-plus"></i> Add New
+                                                </a>
+                                                }
+                                                <div class="btn-group card-option">
+                                                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                    </button>
+                                                    <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                                        <li class="dropdown-item full-card"><a href="#!"><span><i data-feather="maximize"></i>maximize</span></a></li>
+                                                        <li class="dropdown-item minimize-card"><a href="#!"><span><i data-feather="minimize"></i>collapse</span></a></li>
+                                                       
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--table div-->
+                                        @* Users Table *@
+                                        <div class="card-block">
+                                            <partial name="_PaginationHeader" />
+                                            <div id="ContestTableWrapper" class="table-responsive">
+                                                <partial name="_ContestList" model="@Model" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/js/admin.pagination.js" asp-append-version="true"></script>
+    <script src="~/js/admin.users.js" asp-append-version="true"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize pagination settings object
+            Pagination.init({
+                ajax: true,
+                method: 'GET',
+                browserPath: '@Context.Request.Path',
+                fetchUrl: '@Url.Action("Index", "Voting-Competition")',
+                selector: '#ContestTableWrapper'
+            });
+
+            // attach 'before' event handler to 'Pagination' object to get all field parameters for pagination
+            $(Pagination).on('before', function (e) {
+                e.preventDefault();
+                var usersFilterFormValues = $('#ContestFilterForm').serializeArray();
+                $.each(usersFilterFormValues, function (i, obj) {
+                    e.payload.paramsBuilder.addParameter(obj['name'], obj['value']);
+                });
+
+                e.payload.paramsBuilder.addParameters(getPaginationFieldParams());
+            });
+
+            addUsersPageHandlers();
+
+            function addUsersPageHandlers() {
+                addPaginationHandlers();
+
+                /* Custom Handlers */
+                $('#ContestFilterForm').on('submit', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                })
+                //$('#btnXyz').on('click', function (e) {
+                //    Pagination.init({
+                //        ajax: true,
+                //        method: 'GET',
+                //        browserPath: '@Context.Request.Path',
+                //        fetchUrl: '@Url.Action("Voting-SubCompetition")',
+                //        selector: '#ContestTableWrapper'
+                //    });
+
+
+                //    e.preventDefault();
+                //    Pagination.getData();
+                //    return false;
+                //});
+
+                $('#btnContestFilter').on('click', function (e) {
+                    e.preventDefault();
+                    Pagination.getData();
+                    return false;
+                });
+
+              
+            }
+        });
+
+    </script>
+ 
+}

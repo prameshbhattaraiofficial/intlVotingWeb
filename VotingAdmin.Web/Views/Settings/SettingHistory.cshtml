@@ -1,0 +1,262 @@
+﻿@using VotingAdmin.Web.Common.Paging;
+@using VotingAdmin.Web.Dtos.GlobalSetting;
+
+@model PagedResponse<GlobalsettingDto>
+
+<section class="container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index-2.html"><i class="fa-solid fa-house"></i></a></li>
+                                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Settings">Setting </a></li>
+                                    <li class="breadcrumb-item"><a href="#!">Globalsetting-history</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <!-- [ configuration table ] start -->
+                            <!-- [ Fixed Header ] start -->
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="m-b-10">Global Setting History</h5>
+                                        <div class="card-header-right">
+                                            <div class="btn-group card-option">
+                                                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                </button>
+                                                <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                                    <li class="dropdown-item full-card"><a href="#!"><span><i class="fa-solid fa-maximize"></i>maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
+                                                    <li class="dropdown-item minimize-card"><a href="#!"><span><i class="fa-regular fa-square-minus"></i>collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
+                                                    <li class="dropdown-item" id="export-btn"><a href="#!"><i class="fa-solid fa-file-excel"></i> Export to  Excel</a></li>
+                                                    <li class="dropdown-item" id="export-csv-btn"><a href="#!"><i class="fa-solid fa-file-csv"></i> Export to  CSV</a></li>
+                                                    <li class="dropdown-item" id="Copy-btn" onclick="copyTableToClipboard('zero-configuration2')"><a href="#!"><i class="fa-solid fa-copy"></i> copy-Table as Csv</a></li>
+                                                    <li class="dropdown-item" id="Copy-btn2" onclick="printTable('zero-configuration2')"><a href="#!"><i class="fa-solid fa-print"></i> Print-Table</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-block">
+                                        <partial name="_Ordering" />
+                                        <div id="settingTableWrapper" class="table-responsive">
+                                            <partial name="_Settinghistory" model="@Model" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- [ Fixed Header ] end -->
+
+
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/admin.pagination.js" asp-append-version="true"></script>
+    <script src="~/js/admin.users.js" asp-append-version="true"></script>
+    <script src="~/js/LoanType/LoanIndex.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Initialize pagination settings object
+            Pagination.init({
+                ajax: true,
+                method: 'GET',
+                browserPath: '@Context.Request.Path',
+                fetchUrl: '@Url.Action("SettingHistory", "Settings")',
+                selector: '#settingTableWrapper'
+            });
+
+            // attach 'before' event handler to 'Pagination' object to get all field parameters for pagination
+
+            $(Pagination).on('before', function (e) {
+                e.preventDefault();
+                {debugger}
+                //var usersFilterFormValues = $('#LoanTypeFilterform').serializeArray();
+                //$.each(usersFilterFormValues, function (i, obj) {
+                //    e.payload.paramsBuilder.addParameter(obj['name'], obj['value']);
+                //});
+
+                e.payload.paramsBuilder.addParameters(getPaginationFieldParams());
+            });
+
+            addUsersPageHandlers();
+
+            function addUsersPageHandlers() {
+                addPaginationHandlers();
+            }
+        });
+
+     
+
+    </script>
+
+    <script>
+
+        $("#export-btn").on("click", function () {
+            $.ajax({
+                type: "POST",
+                url: "/Settings/ExportsettingToExcel",
+                xhrFields: {
+                    responseType: "blob"
+                },
+                success: function (response, status, xhr) {
+               
+                    if (xhr.status === 200) {
+                 
+                        var blob = new Blob([response], { type: "application/vnd.ms-excel" });
+                        var disposition = xhr.getResponseHeader('Content-Disposition');
+                        if (disposition && disposition.indexOf('attachment') !== -1) {
+                            var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            var matches = filenameRegex.exec(disposition);
+                            if (matches != null && matches[1]) {
+                                filename = matches[1].replace(/['"]/g, '');
+                            }
+                        }
+                        if (window.navigator.msSaveOrOpenBlob) {
+                            // Internet Explorer and Edge
+                            window.navigator.msSaveOrOpenBlob(blob, filename);
+                        } else {
+                            // Other browsers
+                            var link = document.createElement("a");
+                            link.href = URL.createObjectURL(blob);
+                            link.download = filename;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }
+                    }
+                    else {
+                        location.reload();
+                    }
+                },
+                beforeSend: function () {
+                    $('.loader').show();
+                },
+                complete: function () {
+                    $('.loader').hide();
+                },
+                error: function () {
+                    location.reload();
+                }
+            });
+        });
+
+        document.getElementById('export-csv-btn').addEventListener('click', function () {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/Settings/ExportsettingToCSV');
+            xhr.responseType = 'blob';
+            xhr.onload = function () {
+                if (this.status === 200) {
+                    var disposition = this.getResponseHeader('Content-Disposition');
+                    if (disposition && disposition.indexOf('attachment') !== -1) {
+                        var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                        var matches = filenameRegex.exec(disposition);
+                        if (matches != null && matches[1]) {
+                            filename = matches[1].replace(/['"]/g, '');
+                        }
+                    }
+                    if (window.navigator.msSaveOrOpenBlob) {
+                        // Internet Explorer and Edge
+                        window.navigator.msSaveOrOpenBlob(blob, filename);
+                    } else {
+                        // Other browsers
+                        var link = document.createElement("a");
+                        link.href = URL.createObjectURL(this.response);
+                        link.download = filename;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }
+                }
+            };
+            xhr.onloadstart = function () {
+                $('.loader').show();
+            },
+                xhr.onloadend = function () {
+                    $('.loader').hide();
+                },
+                xhr.send();
+        });
+
+        function copyTableToClipboard(tableId) {
+            // Get a reference to the table element
+            var table = document.getElementById(tableId);
+
+            // Create an empty array to hold the CSV rows
+            var rows = [];
+
+            // Iterate over the rows in the table
+            for (var i = 0; i < table.rows.length; i++) {
+                var row = [];
+
+                // Iterate over the cells in the row
+                for (var j = 0; j < table.rows[i].cells.length; j++) {
+                    // Add the cell value to the row array
+                    row.push(table.rows[i].cells[j].innerText);
+                }
+
+                // Join the row array into a CSV string and add it to the rows array
+                rows.push(row.join(","));
+            }
+
+            // Join the rows array into a single CSV string
+            var csv = rows.join("\n");
+
+            // Create a new temporary textarea element
+            var textarea = document.createElement("textarea");
+            textarea.value = csv;
+
+            // Append the textarea element to the document body
+            document.body.appendChild(textarea);
+
+            // Select the contents of the textarea element
+            textarea.select();
+
+            // Copy the selected text to the clipboard
+            document.execCommand("copy");
+
+            // Remove the temporary textarea element from the document body
+            document.body.removeChild(textarea);
+        }
+
+        function printTable(tableId) {
+           
+            var table = document.getElementById(tableId);
+            var printWindow = window.open('', '', 'height=600,width=800');
+
+            printWindow.document.write('<html><head><title>Globle setting History Data</title>');
+         //   printWindow.document.write('<link rel="stylesheet" href="path/to/your/style.css" type="text/css" />');
+            printWindow.document.write('</head><body >');
+            printWindow.document.write(table.outerHTML);
+            printWindow.document.write('</body></html>');
+
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+            return true;
+        }
+
+    </script>
+}

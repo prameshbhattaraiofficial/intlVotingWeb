@@ -1,0 +1,67 @@
+﻿@using VotingAdmin.Web.Dtos.contest;
+@model ContestRequestDto
+
+
+<div class="card-block">
+
+    <form id="SubContestFilterForm" class="row">
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <label>From</label>
+                <input type="date" onkeydown="return false" asp-for="FromDate" max="@DateTime.Now.ToString("yyyy-MM-dd")" value="@DateTime.Now.ToString("yyyy-MM-dd")" name="FromDate" id="d_today" class="form-control" placeholder="FromDate">
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <label>To</label>
+                <input type="date" onkeydown="return false" asp-for="ToDate"  value="@DateTime.Now.ToString("yyyy-MM-dd")" name="ToDate" class="form-control" placeholder="ToDate">
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <label>Status</label>
+                <select name="Status" asp-for="Status" class="form-control" asp-items="@ViewBag.Conteststatuslist">
+                    <option value="">All</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <label>Contest</label>
+                <select name="ContestId" asp-for="ContestId" class="form-control" asp-items="@ViewBag.Contestlist">
+                    <option value="">All</option>
+                </select>
+            </div>
+        </div>
+        <br />
+        @*<div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <select name="KycStatusCode" class="form-control" asp-items="@ViewBag.kycstatuslist">
+                    <option value="">All</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <select name="KycStatusCode" class="form-control" asp-items="@ViewBag.kycstatuslist">
+                    <option value="">All</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <select name="KycStatusCode" class="form-control" asp-items="@ViewBag.kycstatuslist">
+                    <option value="">All</option>
+                </select>
+            </div>
+        </div>*@
+        <input type="hidden" id="Export" name="Export" />
+        <div class="col-sm-6 col-md-2">
+            <button type="submit" id="btnSubContestFilter" class="btn btn-md btn-primary form-control quick-btn">Filter</button>
+        </div>
+    </form>
+</div>
+
+<script type='text/javascript' src="~/js/ValidationScript.js"></script>

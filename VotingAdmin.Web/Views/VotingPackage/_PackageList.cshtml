@@ -1,0 +1,62 @@
+﻿@using VotingAdmin.Web.Common.Paging;
+@using VotingAdmin.Web.Models.Package;
+
+
+@model PagedResponse<PackageList>
+
+<div class="table-responsive">
+    <table id="zero-configuration" class="display table nowrap table-striped table-hover text-center" style="width:100%">
+        <thead>
+            <tr>
+                <th width="10%">Created Date</th>
+                <th width="10%">Competition Name</th>
+                <th width="10%">Sub Competition </th>
+                <th width="10%">Min Vote </th>
+                <th width="10%">Max Vote</th>
+                <th width="10%">Price Per Vote</th>
+                <th width="10%">Created By </th>
+                <th width="10%">Status </th>
+                <th width="10%">IsPaid </th>
+                <th width="10%">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var Package in Model.Items)
+            {
+                <tr>
+                    <td>@Package.CreatedDateString</td>
+                    <td>@Package.ContestName</td>
+                    <td>@Package.SubContestName</td>
+                    <td>@Package.MinVote</td>
+                    <td>@Package.MaxVote</td>
+                    <td>@Package.PricePerVote</td>
+                    <td>@Package.CreatedBy</td>
+                    <td data-label="Status ">
+                        @if (Package.IsActive)
+                        {
+                            <a href="#!" class="badge badge-pill badge-success f-12">Active</a>
+                        }
+                        else
+                        {
+                            <a href="#!" class="badge badge-pill badge-danger f-12">InActive</a>
+                        }
+
+                        </td>
+                    <td>@Package.IsPaid</td>
+                    <td data-label="Action" class="status">
+                        @if (ViewBag.Update)
+                        {
+                            <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("UpdatePackage","VotingPackage",new {PackageId=Package.PackageId})', 'Update Package')"><i data-toggle="tooltip" title="" class="text-c-green fh-10" data-feather="edit" data-original-title="Edit"></i></a>
+                            
+                        }
+                        @if (ViewBag.delete)
+                        {
+                            <a style="cursor:pointer" onclick="PopUPAjaxDelete('@Url.Action("DeletePackage","VotingPackage",new {PackageId=Package.PackageId,ContestId=Package.ContestId,SubContestId=Package.SubContestId})','Delete Package')"><i data-toggle="tooltip" title="" class="text-c-red fh-10" data-feather="trash-2" data-original-title="Delete"></i></a>
+                        }
+                    </td>
+                </tr>
+            }
+          
+        </tbody>
+    </table>
+</div>

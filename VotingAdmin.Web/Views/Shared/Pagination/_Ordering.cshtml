@@ -1,0 +1,15 @@
+﻿@using VotingAdmin.Web.Dtos.Pagination;
+
+@model Pagination
+@{
+    Layout = null;
+}
+@if (Model.CurrentPage == Model.EndPage)
+{
+    //<p class="m-l-10">Showing @Model.CurrentPage to @(Model.TotalItems-((Model.TotalPage-1)*Model.PageSize)) of @Model.TotalItems Entries </p>
+    <p class="m-l-10">Showing @(((@Model.CurrentPage - 1) * @Model.PageSize)+1) to @(Model.TotalItems-((Model.TotalPage-1)*Model.PageSize)+ ((@Model.CurrentPage - 1) * @Model.PageSize)) of @Model.TotalItems Entries </p>
+}
+else
+{
+    <p class="m-l-10">Showing @(((@Model.CurrentPage - 1) * @Model.PageSize)+1) to @(Model.PageSize + ((Model.CurrentPage - 1) * Model.PageSize)) of @Model.TotalItems Entries </p>
+}

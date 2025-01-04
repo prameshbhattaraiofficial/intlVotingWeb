@@ -1,0 +1,70 @@
+﻿@using Voting.Core.Models.Contest;
+@using VotingAdmin.Web.Common.Paging;
+@using VotingAdmin.Web.Models.Pagination;
+@model PagedResponse<ContestDetail>
+
+<div class="table-responsive">
+    <table id="zero-configuration" class="display table nowrap table-striped table-hover text-center" style="width:100%">
+        <thead>
+            <tr>
+                <th width="10%">Created Date</th>
+                <th width="10%">Updated Date</th>
+                <th width="10%">Competition Name</th>
+                <th width="10%">Sub Competition </th>
+                <th width="10%">Banner</th>
+                <th width="10%">Is Published</th>
+                <th width="10%">Total Free Votes</th>
+                <th width="10%">Total Paid Votes</th>
+                <th width="10%">Total Votes</th>
+                <th width="10%">Total Amount</th>
+                <th width="10%">Status</th>
+                <th width="10%">Publish Date</th>
+                <th width="10%">End Time </th>
+                <th width="10%">IsActive </th>
+                <th width="10%">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Items != null)
+            {
+                @foreach (var contest in Model.Items)
+                {
+                    <tr>
+                        <td>@contest.CreatedDate </td>
+                        <td>@contest.UpdatedDate</td>
+                        <td>@contest.ContestName</td>
+                        <td>@contest.SubContestName</td>
+                        <td><img onclick="ShowImage('@contest.SubContestBannerImgPath','@contest.SubContestName')" style="width:90px;" src="@contest.SubContestBannerImgPath" alt="@contest.SubContestName"></td>
+                        <td>@contest.IsPublished</td>
+                        <td>@contest.TotalFreeVotes</td>
+                        <td>@contest.TotalPaidVotes</td>
+                        <td>@contest.TotalVotes</td>
+                        <td>@contest.TotalAmount</td>
+                        <td>@contest.Status</td>
+                        <td>@contest.PublishedDateTime</td>
+                        <td>@contest.EndDateTime</td>
+                        <td>@contest.IsActive</td>
+
+                        <td data-label="Action" class="status">
+                            @if (ViewBag.Update)
+                            {
+                                <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("UpdateSubContest","VotingCompetition",new {SubContestId=contest.SubContestId })', 'Update SubContest')"><i data-toggle="tooltip" title="" class="text-c-green fh-10" data-feather="edit" data-original-title="Edit"></i></a>
+                               
+                            }
+                            @if (ViewBag.delete)
+                            {
+                                <a style="cursor:pointer" onclick="PopUPAjaxDelete('@Url.Action("DeleteSubContest","VotingCompetition",new {ContestId=contest.ContestId ,SubContestId=contest.SubContestId})','Delete SubContest')"><i data-toggle="tooltip" title="" class="text-c-red fh-10" data-feather="trash-2" data-original-title="Delete"></i></a>
+                            }
+                        </td>
+                    </tr>
+
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+<partial name="_PaginationFooter"
+         model="new PaginationFooter(Model.PageNumber, Model.PageSize, Model.Items.Count(), Model.FilteredCount, Model.TotalCount, Model.TotalPages)" />

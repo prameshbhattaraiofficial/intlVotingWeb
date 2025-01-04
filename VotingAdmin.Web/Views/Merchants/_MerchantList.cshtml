@@ -1,0 +1,54 @@
+﻿@using VotingAdmin.Web.Common.Paging;
+@using VotingAdmin.Web.Dtos.Merchants;
+@using VotingAdmin.Web.Models.Pagination;
+@model PagedResponse<MerchantListItem>
+
+<div>
+    <table id="zero-configuration" class="display table nowrap table-striped table-hover text-center" style="width:100%">
+        <thead>
+            <tr>
+                <th width="10%">Merchant ID</th>
+                <th width="10%">Full Name</th>
+                <th width="10%">Username</th>
+                <th width="10%">Organization Name</th>
+                <th width="10%">Address</th>
+                <th width="10%">Email</th>
+                <th width="10%">Phone </th>
+                <th width="10%">Registration Number</th>
+                <th width="10%">PAN Number</th>
+                <th width="10%">Director's Name </th>
+                <th width="10%">Status </th>
+                <th width="10%">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Items is not null)
+            {
+                @foreach (var merchant in Model.Items)
+                {
+                    <tr>
+                        <td>@merchant.MerchantId</td>
+                        <td>@merchant.FullName</td>
+                        <td>@merchant.UserName</td>
+                        <td>@merchant.OrganizationName</td>
+                        <td>@merchant.Address</td>
+                        <td>@merchant.Email</td>
+                        <td>@merchant.Mobile</td>
+                        <td>@merchant.RegistrationNumber</td>
+                        <td>@merchant.PANNumber</td>
+                        <td>@merchant.DirectorName</td>
+                        <td data-label="Status "><a href="#!" class="badge badge-pill @(merchant.IsActive ? "badge-success" : "badge-secondary") f-12">@(merchant.IsActive ? "Active" : "Not Active")</a></td>
+                        <td data-label="Action" class="status">
+                            <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("UpdateMerchant","Merchants",new {merchantId=merchant.MerchantId })', 'Edit Merchant')"><i class="fa fa-edit text-c-green " title="Edit"></i></a>
+                            <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("MerchantDetail","Merchants",new {merchantId=merchant.MerchantId })', 'View Merchant')"><i class="fa fa-eye  ext-c-yellow " title="View"></i></a>
+                            <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("ResetPassword","Merchants",new {UserId=merchant.Id })', 'Reset Password')" data-target="#reset"><i class="fa fa-key text-c-purple" title="Reset Password"></i></a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<partial name="_PaginationFooter"
+         model="new PaginationFooter(Model.PageNumber, Model.PageSize, Model.Items.Count(), Model.FilteredCount, Model.TotalCount, Model.TotalPages)" />

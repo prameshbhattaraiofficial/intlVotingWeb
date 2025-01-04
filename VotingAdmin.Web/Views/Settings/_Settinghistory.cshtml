@@ -1,0 +1,150 @@
+﻿@using VotingAdmin.Web.Common.Paging;
+@using VotingAdmin.Web.Dtos.GlobalSetting;
+@using VotingAdmin.Web.Models.Pagination;
+@model PagedResponse<GlobalsettingDto>
+
+
+<div class="card-block">
+    <div class="table-responsive">
+        <table id="zero-configuration2" class="display table nowrap table-striped table-hover text-center" style="width:100%">
+            <thead class="">
+                <tr>
+                    <th class="text-nowrap">S.N</th>
+                    <th class="text-nowrap">languageCode</th>
+                    <th class="text-nowrap">currencyFormat</th>
+                    <th class="text-nowrap">dateFormat</th>
+                    <th class="text-nowrap">timeFormat</th>
+                    <th class="text-nowrap">delimeter</th>
+                    <th class="text-nowrap">emailVerificationRequiredForTxn</th>
+                    <th class="text-nowrap">mobileVerificationRequiredForTxn</th>
+                    <th class="text-nowrap">kycVerificationRequiredForTxn</th>
+                    <th class="text-nowrap">buyTxnChargeApplicable</th>
+                    <th class="text-nowrap">sellTxnChargeApplicable</th>
+                    <th class="text-nowrap">investTxnChargeApplicable</th>
+                    <th class="text-nowrap">deliveryTxnChargeApplicable</th>
+                    <th class="text-nowrap">giftTxnChargeApplicable</th>
+                    <th class="text-nowrap">ornamentTxnChargeApplicable</th>
+                    <th class="text-nowrap">buyTxnLimitRequired</th>
+                    <th class="text-nowrap">buyMinimumTxnLimit</th>
+                    <th class="text-nowrap">buyMaximumTxnLimit</th>
+                    <th class="text-nowrap">sellTxnLimitRequired</th>
+                    <th class="text-nowrap">sellMinimumTxnLimit</th>
+                    <th class="text-nowrap">sellMaximumTxnLimit</th>
+                    <th class="text-nowrap">investTxnLimitRequired</th>
+                    <th class="text-nowrap">investMinimumTxnLimit</th>
+                    <th class="text-nowrap">investMaximumTxnLimit</th>
+                    <th class="text-nowrap">deliveryTxnLimitRequired</th>
+                    <th class="text-nowrap">deliveryMinimumTxnLimit</th>
+                    <th class="text-nowrap">deliveryMaximumTxnLimit</th>
+                    <th class="text-nowrap">giftTxnLimitRequired</th>
+                    <th class="text-nowrap">giftMinimumTxnLimit</th>
+                    <th class="text-nowrap">giftMaximumTxnLimit</th>
+                    <th class="text-nowrap">ornamentTxnLimitRequired</th>
+                    <th class="text-nowrap">ornamentMinimumTxnLimit</th>
+                    <th class="text-nowrap">ornamentMaximumTxnLimit</th>
+                    <th class="text-nowrap">sendEmailNotification</th>
+
+                    <th class="text-nowrap">sendMobileNotification</th>
+                    <th class="text-nowrap">sendMobileOTP</th>
+                    <th class="text-nowrap">sendEmailOTP</th>
+                    <th class="text-nowrap">otpLength</th>
+                    <th class="text-nowrap">forcedChangePasswordRequired</th>
+                    <th class="text-nowrap">forcedChangedPasswordDurationInMonth</th>
+                    <th class="text-nowrap">registerPwdExpTimeInMinute</th>
+                    <th class="text-nowrap">SameEmailRegistrationGapTimeInMinute</th>
+                    <th class="text-nowrap">failedLoginAttemptCount</th>
+
+                    <th class="text-nowrap">DefaultBuyChargeValue</th>
+                    <th class="text-nowrap">DefaultsellChargeValue</th>
+                    <th class="text-nowrap">DefaultGiftChargeValue</th>
+                    <th class="text-nowrap">DefaultOrnamentChargeValue</th>
+                    <th class="text-nowrap">DefaultInvestChargeValue</th>
+                    <th class="text-nowrap">DefaultdeliveryChargeValue</th>
+
+
+                    <th class="text-nowrap">adminApprovalRequiredForBuyTxn</th>
+                    <th class="text-nowrap">adminApprovalRequiredForSellTxn</th>
+                    <th class="text-nowrap">adminApprovalRequiredForInvestTxn</th>
+                    <th class="text-nowrap">adminApprovalRequiredForDeliveryTxn</th>
+                    <th class="text-nowrap">adminApprovalRequiredForGiftTxn</th>
+                    <th class="text-nowrap">adminApprovalRequiredForOrnamentTxn</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @{
+                    var itemIndex = Math.Max(((Model.PageNumber - 1) * Model.PageSize) + 1, 1);
+                    @foreach (var item in Model.Items)
+                    {
+
+                        <tr>
+                            <td>@itemIndex</td>
+                            <td>@item.languageCode</td>
+                            <td>@item.currencyFormat</td>
+                            <td>@item.dateFormat</td>
+                            <td>@item.timeFormat</td>
+                            <td>@item.delimeter</td>
+                            <td>@item.emailVerificationRequiredForTxn</td>
+                            <td>@item.mobileVerificationRequiredForTxn</td>
+                            <td>@item.kycVerificationRequiredForTxn</td>
+                            <td>@item.buyTxnChargeApplicable</td>
+                            <td>@item.sellTxnChargeApplicable</td>
+                            <td>@item.investTxnChargeApplicable</td>
+                            <td>@item.deliveryTxnChargeApplicable</td>
+                            <td>@item.giftTxnChargeApplicable</td>
+                            <td>@item.ornamentTxnChargeApplicable</td>
+                            <td>@item.buyTxnLimitRequired</td>
+                            <td>@item.buyMinimumTxnLimit</td>
+                            <td>@item.buyMaximumTxnLimit</td>
+                            <td>@item.sellTxnLimitRequired</td>
+                            <td>@item.sellMinimumTxnLimit</td>
+                            <td>@item.sellMaximumTxnLimit</td>
+                            <td>@item.investTxnLimitRequired</td>
+                            <td>@item.investMinimumTxnLimit</td>
+                            <td>@item.investMaximumTxnLimit</td>
+                            <td>@item.deliveryTxnLimitRequired</td>
+                            <td>@item.deliveryMinimumTxnLimit</td>
+                            <td>@item.deliveryMaximumTxnLimit</td>
+                            <td>@item.giftTxnLimitRequired</td>
+                            <td>@item.giftMinimumTxnLimit</td>
+                            <td>@item.giftMaximumTxnLimit</td>
+                            <td>@item.ornamentTxnLimitRequired</td>
+                            <td>@item.ornamentMinimumTxnLimit</td>
+                            <td>@item.ornamentMaximumTxnLimit</td>
+                            <td>@item.sendEmailNotification</td>
+                            <td>@item.sendMobileNotification</td>
+                            <td>@item.sendMobileOTP</td>
+                            <td>@item.sendEmailOTP</td>
+                            <td>@item.otpLength</td>
+                            <td>@item.forcedChangePasswordRequired</td>
+                            <td>@item.forcedChangedPasswordDurationInMonth</td>
+                            <td>@item.registerPwdExpTimeInMinute</td>
+                            <td>@item.SameEmailRegistrationGapTimeInMinute</td>
+                            <td>@item.failedLoginAttemptCount</td>
+                            <td>@item.defaultBuyChargeValue</td>
+                            <td>@item.defaultSellChargeValue</td>
+                            <td>@item.defaultGiftChargeValue</td>
+                            <td>@item.defaultOrnamentChargeValue</td>
+                            <td>@item.defaultInvestChargeValue</td>
+                            <td>@item.defaultDeliveryChargeValue</td>
+                            <td>@item.adminApprovalRequiredForBuyTxn</td>
+                            <td>@item.adminApprovalRequiredForSellTxn</td>
+                            <td>@item.adminApprovalRequiredForInvestTxn</td>
+                            <td>@item.adminApprovalRequiredForDeliveryTxn</td>
+                            <td>@item.adminApprovalRequiredForGiftTxn</td>
+                            <td>@item.adminApprovalRequiredForOrnamentTxn</td>
+                        </tr>
+                        itemIndex++;
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<partial name="_PaginationFooter"
+         model="new PaginationFooter(Model.PageNumber, Model.PageSize, Model.Items.Count(), Model.FilteredCount, Model.TotalCount, Model.TotalPages)" />
+
+<script src="~/assets/js/pages/tbl-datatable-custom.js"></script>

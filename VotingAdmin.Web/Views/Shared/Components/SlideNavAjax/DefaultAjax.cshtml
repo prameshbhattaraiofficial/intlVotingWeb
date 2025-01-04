@@ -1,0 +1,104 @@
+﻿@using VotingAdmin.Web.Dtos.Menus;
+
+@model MenusList
+
+@{
+    Func<string, string, bool> isSamePath = (string path1, string path2) =>
+    {
+        if (path1 is null || path2 is null)
+            return false;
+
+        return path1.Trim().Trim('/').Equals(path2.Trim().Trim('/'), StringComparison.InvariantCultureIgnoreCase);
+    };
+
+    Func<MenuItem, bool> hasSubMenuActive = (MenuItem menuItem) =>
+    {
+        if (menuItem is null || !menuItem.SubMenus.Any())
+            return false;
+
+        return menuItem.SubMenus.Any(subMenu => isSamePath(subMenu.MenuUrl, Context.Request.Path));
+    };
+
+    Func<MenuItem, bool> isMenuActive = (MenuItem menuItem) =>
+    {
+        if (menuItem is null)
+            return false;
+
+        return menuItem.SubMenus.Any()
+        ? isSamePath(menuItem.MenuUrl, Context.Request.Path) && hasSubMenuActive(menuItem)
+        : isSamePath(menuItem.MenuUrl, Context.Request.Path);
+    };
+
+    var menuIcons = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
+    {
+        { "Dashboard", "fa-home" },
+        { "Reports", "fa-file-alt" },
+        { "Users", "fa-user-friends" },
+        { "Customers", "fa-users" },
+        { "Charges", "fa-tags" },
+        { "Withholding", "fa-edit" },
+        { "Loan Management", "fa-file-invoice-dollar" },
+        { "Commission", "fa-twitch" },
+        { "Investment", "fa-chart-line" },
+        { "Merchants", "fa-user-check" },
+        { "Request", "fa-plus-square" },
+        { "Settings", "fa-tools" },
+        { "Master", "fa-users-cog" },
+        { "Menu Manager", "fa-elementor" }
+    };
+}
+
+<!-- [ navigation menu ] start -->
+<nav class="pcoded-navbar">
+    <div class="navbar-wrapper">
+        <div class="navbar-brand header-logo">
+            <a asp-action="Index" asp-controller="Home" class="b-brand">
+                <div class="b-bg">
+                    <img src="~/assets/images/logo-dark.png">
+                </div>
+                <span class="b-title headings">DigiGOLD</span>
+            </a>
+            <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
+        </div>
+        <div class="navbar-content scroll-div">
+            <ul class="nav pcoded-inner-navbar">
+                @foreach (var menuItem in Model.Data)
+                {
+                    var hasSubmenu = menuItem.SubMenus.Any();
+                    var hasActiveSubmenu = hasSubMenuActive(menuItem);
+
+                    var hasSubmenuClass = hasSubmenu ? "pcoded-hasmenu" : string.Empty;
+                    var menuActiveClass = isMenuActive(menuItem) ? "active" : "";
+                    var submenuActiveClass = hasActiveSubmenu ? "pcoded-trigger" : "";
+                    // var menuUrl = hasSubmenu && string.IsNullOrWhiteSpace(menuItem.MenuUrl) ? "javascript:;" : menuItem.MenuUrl;
+                    var menuUrl = hasSubmenu && !string.IsNullOrWhiteSpace(menuItem.MenuUrl) ? " " : @"href= " + menuItem.MenuUrl;
+
+                    <li class="nav-item @menuActiveClass @hasSubmenuClass @submenuActiveClass text-white">
+
+                        @{
+                            var menuOnClickAction = hasSubmenu ? ";javascript" : $"AjaxCall('{Url.Action(menuItem.MenuUrl)}');e.currentTarget.classList.add('active');";
+                        }
+
+                        <a style="cursor:pointer" onclick="@menuOnClickAction;" class="nav-link">
+                            <span class="pcoded-micon">
+                                <i class="fa-solid @(menuIcons.ContainsKey(menuItem.Title) ? menuIcons[menuItem.Title] : "home")"></i>
+                            </span><span class="pcoded-mtext">@menuItem.Title</span>
+                        </a>
+
+                        @if (hasSubmenu)
+                        {
+                            <ul style="cursor:pointer" class="pcoded-submenu" style="@(hasActiveSubmenu ? "display: block !important;" : "")">
+                                @foreach (var submenuItem in menuItem.SubMenus)
+                                {
+                                    <li class="@(isMenuActive(submenuItem) ? "active" : "")" style="cursor:pointer"><a onclick="AjaxCall('@Url.Action(submenuItem.MenuUrl)');this.parentNode.classList.add('active')" class="">@submenuItem.Title</a></li>
+                                }
+                            </ul>
+                        }
+
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- [ navigation menu ] end -->

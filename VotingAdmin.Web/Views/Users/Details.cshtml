@@ -1,0 +1,237 @@
+﻿@using VotingAdmin.Web.Dtos.Users.UserDetails
+@model UserDetails
+<div class="row">
+    <div class="col-md-4">
+        <div class="card-block border-right">
+            <div class="text-center">
+                <img class="img-fluid rounded-circle" style="height:120px;width:120px;" src="@Model.ProfileImagePath" alt="dashboard-user">
+                <h4 class="mt-3">@Model.FullName</h4>
+                <span><i class="fas fa-map-marker-alt f-18 m-r-5"></i>@Model.FullName</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h5 class="mb-4">Contact Details</h5>
+        <div class="review-emotion mb-3">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-auto">
+                    <span><i class="fh-10 text-c-dark f-20" data-feather="mail"></i></span>
+                </div>
+                <div class="col ">
+                    <span>@Model.Email</span>
+                </div>
+            </div>
+        </div>
+        <div class="review-emotion mb-3">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-auto">
+                    <span><i class="fh-10 text-c-dark f-20" data-feather="phone"></i></span>
+                </div>
+                <div class="col ">
+                    <span>@Model.Mobile</span>
+                </div>
+            </div>
+        </div>
+        <div class="review-emotion mb-0">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-auto">
+                    <span><i class="fh-10 text-c-dark f-20" data-feather="calendar"></i></span>
+                </div>
+                <div class="col ">
+                    <span>@Model.DateOfBirth</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="col-sm-12 mt-50">
+    <ul class="nav nav-tabs" id="myTab1" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link show active" id="user-tab" data-toggle="tab" href="#user" role="tab" aria-selected="true">Today</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link show" id="designer-tab" data-toggle="tab" href="#designer" role="tab" aria-selected="false">This Week</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link show" id="Developer-tab" data-toggle="tab" href="#Developer" role="tab" aria-selected="false">All</a>
+        </li>
+    </ul>
+    <div class="tab-content User-Lists" id="myTabContent1">
+        <div class="tab-pane fade active show" id="user" role="tabpanel">
+            <div class="media friendlist-box align-items-center justify-content-center m-b-20">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-1.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Silje Larsen</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-up f-22 m-r-10 text-c-green"></i>3784</span>
+                </div>
+            </div>
+            <div class="media friendlist-box align-items-center justify-content-center m-b-20">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-2.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Julie Vad</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-up f-22 m-r-10 text-c-green"></i>3544</span>
+                </div>
+            </div>
+            <div class="media friendlist-box align-items-center justify-content-center m-b-20">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-3.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Storm Hanse</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-down f-22 m-r-10 text-c-red"></i>2739</span>
+                </div>
+            </div>
+            <div class="media friendlist-box align-items-center justify-content-center m-b-20">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-1.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Frida Thomse</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-down f-22 m-r-10 text-c-red"></i>1032</span>
+                </div>
+            </div>
+            <div class="media friendlist-box align-items-center justify-content-center m-b-20">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-2.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Silje Larsen</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-up f-22 m-r-10 text-c-green"></i>8750</span>
+                </div>
+            </div>
+            <div class="media friendlist-box align-items-center justify-content-center">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-3.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Storm Hanse</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-down f-22 m-r-10 text-c-red"></i>3750</span>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="designer" role="tabpanel">
+            <div class="media friendlist-box align-items-center justify-content-center m-b-20">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-1.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Silje Larsen</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-up f-22 m-r-10 text-c-green"></i>3784</span>
+                </div>
+            </div>
+            <div class="media friendlist-box align-items-center justify-content-center m-b-20">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-2.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Julie Vad</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-up f-22 m-r-10 text-c-green"></i>3544</span>
+                </div>
+            </div>
+            <div class="media friendlist-box align-items-center justify-content-center m-b-20">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-3.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Storm Hanse</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-down f-22 m-r-10 text-c-red"></i>2739</span>
+                </div>
+            </div>
+            <div class="media friendlist-box align-items-center justify-content-center m-b-20">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-1.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Frida Thomse</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-down f-22 m-r-10 text-c-red"></i>1032</span>
+                </div>
+            </div>
+            <div class="media friendlist-box align-items-center justify-content-center m-b-20">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-2.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Silje Larsen</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-up f-22 m-r-10 text-c-green"></i>8750</span>
+                </div>
+            </div>
+            <div class="media friendlist-box align-items-center justify-content-center">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-3.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Storm Hanse</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-down f-22 m-r-10 text-c-red"></i>5850</span>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="Developer" role="tabpanel">
+            <div class="media friendlist-box align-items-center justify-content-center m-b-20">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-1.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Silje Larsen</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-up f-22 m-r-10 text-c-green"></i>3784</span>
+                </div>
+            </div>
+            <div class="media friendlist-box align-items-center justify-content-center m-b-20">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-2.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Julie Vad</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-up f-22 m-r-10 text-c-green"></i>3544</span>
+                </div>
+            </div>
+            <div class="media friendlist-box align-items-center justify-content-center m-b-20">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-3.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Storm Hanse</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-down f-22 m-r-10 text-c-red"></i>2739</span>
+                </div>
+            </div>
+            <div class="media friendlist-box align-items-center justify-content-center m-b-20">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-1.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Frida Thomse</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-down f-22 m-r-10 text-c-red"></i>1032</span>
+                </div>
+            </div>
+            <div class="media friendlist-box align-items-center justify-content-center m-b-20">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-2.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Silje Larsen</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-up f-22 m-r-10 text-c-green"></i>8750</span>
+                </div>
+            </div>
+            <div class="media friendlist-box align-items-center justify-content-center">
+                <div class="m-r-10 photo-table">
+                    <a href="#!"><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-1.jpg" alt="activity-user"></a>
+                </div>
+                <div class="media-body">
+                    <h6 class="m-0 d-inline">Storm Hanse</h6>
+                    <span class="float-right d-flex  align-items-center"><i class="fas fa-caret-up f-22 m-r-10 text-c-green"></i>5875</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>    
+    </div>
+
+</div>*@
+<script>
+    feather.replace()
+</script>

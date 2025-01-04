@@ -1,0 +1,85 @@
+﻿@using VotingAdmin.Web.Common.Paging;
+@using VotingAdmin.Web.Models.Contest;
+@using VotingAdmin.Web.Models.Pagination;
+@model PagedResponse<ContestList>
+
+<div class="table-responsive">
+    <table id="zero-configuration" class="display table nowrap table-striped table-hover text-center" style="width:100%">
+        <thead>
+            <tr>
+                <th width="10%">Start Date</th>
+                <th width="10%">End Date</th>
+                <th width="10%">Competition Name</th>
+                <th width="10%">Banner</th>
+                <th width="10%">Is Published</th>
+                <th width="10%">Publish Date</th>
+                <th width="10%">Total Free Votes</th>
+                <th width="10%">Total Paid Votes</th>
+                <th width="10%">Total Votes</th>
+                <th width="10%">Total Amount</th>
+                <th width="10%">Status</th>
+                <th width="10%">IsActive</th>
+                <th width="10%">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Items != null)
+            {
+                @foreach (var contest in Model.Items)
+                {
+                    <tr>
+
+                        <td>@contest.StartDateTime </td>
+                        <td>@contest.EndDateTime</td>
+
+                        <td>
+
+                            <a asp-action="SubCompitation" asp-controller="VotingCompetition" asp-route-ContestId="@contest.ContestId" asp-route-FromDate="@contest.StartDateTime" asp-route-ToDate="@contest.EndDateTime">
+                                @contest.ContestName
+                            </a>
+                        </td>
+                        <td><img style="width:90px;" onclick="ShowImage('@contest.ContestBannerImgPath','@contest.ContestName')" src="@contest.ContestBannerImgPath" alt="@contest.ContestName"></td>
+
+                        <td>@contest.IsPublished</td>
+                        <td>@contest.PublishedDateTime</td>
+                        <td>@contest.TotalFreeVotes</td>
+                        <td>@contest.TotalPaidVotes</td>
+                        <td>@contest.TotalVotes</td>
+                        <td>@contest.TotalAmount</td>
+                        <td>@contest.Status</td>
+                        <td>@contest.IsActive</td>
+                        <td data-label="Action" class="status">
+                            @if (ViewBag.update)
+                            {
+                                <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("UpdateContest","VotingCompetition",new {ContestId=contest.ContestId })', 'Update Contest')"><i data-toggle="tooltip" title="" class="text-c-green fh-10" data-feather="edit" data-original-title="Edit"></i></a>
+                            }
+                            @if (ViewBag.delete)
+                            {
+                                <a style="cursor:pointer" onclick="PopUPAjaxDelete('@Url.Action("DeleteContest","VotingCompetition",new {ContestId=contest.ContestId})','Delete Contest')"><i data-toggle="tooltip" title="" class="text-c-red fh-10" data-feather="trash-2" data-original-title="Delete"></i></a>
+                            }
+                            @if (ViewBag.update)
+                            {
+
+                                @if (!@contest.IsPublished)
+                                {
+                                    <a style="cursor:pointer" onclick="PopUPAjaxDelete('@Url.Action("PublishContest","VotingCompetition",new {ContestId=contest.ContestId})','Publish Contest')"><i data-toggle="tooltip" title="" class="text-c-green fh-10" data-feather="anchor" data-original-title="Publish"></i></a>
+                                }
+                                else
+                                {
+                                    <a style="cursor:pointer" onclick="PopUPAjaxDelete('@Url.Action("UnPublishContest","VotingCompetition",new {ContestId=contest.ContestId})','UnPublish Contest')"><i data-toggle="tooltip" title="" class="text-c-red fh-10" data-feather="anchor" data-original-title="UnPublish"></i></a>
+                                }
+
+                            }
+                        </td>
+                    </tr>
+
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<partial name="_PaginationFooter"
+         model="new PaginationFooter(Model.PageNumber, Model.PageSize, Model.Items.Count(), Model.FilteredCount, Model.TotalCount, Model.TotalPages)" />
+

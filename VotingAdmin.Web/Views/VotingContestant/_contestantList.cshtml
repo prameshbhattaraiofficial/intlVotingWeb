@@ -1,0 +1,88 @@
+﻿@using VotingAdmin.Web.Common.Paging;
+@using VotingAdmin.Web.Models.Contestant;
+@using VotingAdmin.Web.Models.Pagination;
+@model PagedResponse<ContestantList>
+
+<div class="table-responsive">
+    <table id="zero-configuration" class="display table nowrap table-striped table-hover text-center" style="width:100%">
+        <thead>
+            <tr>
+                <th width="10%">Created Date</th>
+                <th width="10%">Updated Date</th>
+                <th width="10%">Competition Name</th>
+                <th width="10%">Sub Competition </th>
+                <th width="10%">Candidate Name</th>
+                <th width="10%">Candidate Number</th>
+                <th width="10%">Image</th>
+
+                <th width="10%">Total Votes </th>
+                <th width="10%">Free Votes</th>
+                <th width="10%">Total Paid Votes </th>
+                <th width="10%">Total Amount</th>
+
+                <th width="10%">Email </th>
+                <th width="10%">Phone </th>
+                <th width="10%">Candidate Rank</th>
+
+                <th width="10%">Status </th>
+                <th width="10%">Created By </th>
+                <th width="10%">Updated By </th>
+                <th width="10%">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if(Model.Items != null)
+            {
+                @foreach(var contestant in Model.Items)
+                {
+                    <tr>
+                        <td>@contestant.CreatedLocalDate</td>
+                        <td>@contestant.UpdatedLocalDate</td>
+                        <td>@contestant.ContestName</td>
+                        <td>@contestant.SubContestName</td>
+                        <td>@contestant.ContestantName</td>
+                        <td>@contestant.ContestantNumber</td>
+                        <td><img style="width:20px;" onclick="ShowImage('@contestant.PhotoImagePath','@contestant.ContestName')" src="@contestant.PhotoImagePath" alt="@contestant.ContestName"></td>
+
+                        <td>@contestant.TotalVotes</td>
+                        <td>@contestant.TotalFreeVotes</td>
+                        <td>@contestant.TotalPaidVotes</td>
+                        <td>@contestant.TotalAmount</td>
+
+                        <td>@contestant.EmailAddress</td>
+                        <td>@contestant.ContactNumber</td>
+                        <td>@contestant.ConstestantRank</td>
+
+                        <td data-label="Status "><a href="#!" class="badge badge-pill badge-success f-12">@contestant.IsActive</a></td>
+                        <td>@contestant.CreatedBy</td>
+                        <td>@contestant.UpdatedBy</td>
+                        <td data-label="Action" class="status">
+                            @if (ViewBag.Update)
+                            {
+                                <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("UpdateContestant","VotingContestant",new {ContestantId=contestant.ContestantId })', 'Update Contestant')"><i data-toggle="tooltip" title="" class="text-c-green fh-10" data-feather="edit" data-original-title="Edit"></i></a>
+                               
+                            }
+                            @if (ViewBag.delete)
+                            {
+                                <a style="cursor:pointer" onclick="PopUPAjaxDelete('@Url.Action("DeleteContestant","VotingContestant",new {ContestId=contestant.ContestId,SubContestId=contestant.SubContestId,ContestantId=contestant.ContestantId})','Delete Contestant')"><i data-toggle="tooltip" title="" class="text-c-red fh-10" data-feather="trash-2" data-original-title="Delete"></i></a>
+                            }
+
+                        </td>
+                    </tr> 
+                }
+            }
+            
+                
+
+           
+           
+
+
+        </tbody>
+    </table>
+</div>
+
+
+<partial name="_PaginationFooter"
+         model="new PaginationFooter(Model.PageNumber, Model.PageSize, Model.Items.Count(), Model.FilteredCount, Model.TotalCount, Model.TotalPages)" />

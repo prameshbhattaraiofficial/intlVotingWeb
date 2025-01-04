@@ -1,0 +1,57 @@
+﻿@using VotingAdmin.Web.Dtos.Pagination;
+
+@model Pagination
+@{
+    Layout = null;
+}
+
+<div class="report-table-footer-container row mt-4">
+    <div class="col-sm-12 col-md-6 d-flex align-items-center">
+        @*@await Component.InvokeAsync("PaginationSummary", new PaginationSummaryModel(1, 10, 10, 24, 24))*@
+        <partial name="Pagination/_Ordering" model="@Model" />
+    </div>
+    <div class="col-sm-12 col-md-6 row">
+        <span class="ml-md-auto">
+            @if (Model.TotalPage > 0)
+            {
+                <ul class="pagination justify-content-end">
+                    <li class="justify-content-end">
+
+                    </li>
+                    @if (Model.CurrentPage > 1)
+                    {
+                        <li class="page">
+                            <a class="page-link" onclick="ChangePagesize('/@Model.Controller/@Model.Action', 1)">First</a>
+                        </li>
+                        <li class="page">
+                            <a class="page-link" onclick="ChangePagesize('/@Model.Controller/@Model.Action',@Model.CurrentPage-1)">Previous</a>
+                        </li>
+                    }
+                    @for (var pge = Model.StartPage; pge <= Model.EndPage; pge++)
+                    {
+                        <li id="currentpage" class="page-item @(pge==Model.CurrentPage?" active":"")">
+                            <a class="page-link" onclick="ChangePagesize('/@Model.Controller/@Model.Action',@pge)">@pge</a>
+
+                        </li>
+                    }
+                    @if (Model.CurrentPage < Model.TotalPage)
+                    {
+                        <li class="page">
+                            <a class="page-link" onclick="ChangePagesize('/@Model.Controller/@Model.Action',@Model.CurrentPage+1)">Next</a>
+                        </li>
+                        <li class="page">
+                            <a class="page-link" onclick="ChangePagesize('/@Model.Controller/@Model.Action',@Model.TotalPage)">Last</a>
+                        </li>
+                    }
+
+                </ul>
+            }
+        </span>
+    </div>
+</div>
+
+
+
+
+
+

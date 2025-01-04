@@ -1,0 +1,14 @@
+﻿
+@model int;
+<form asp-action="DeleteAction" asp-controller="MenuManager" asp-route-Id="@Model"  autocomplete="off" class="text-center">
+
+    <i class="fa fa-circle-xmark text-danger fa-5x mb-20 m-t-15 "></i>
+    <h3 class="m-t-25">Are you sure?</h3>
+   
+    <p class="m-t-25 m-b-15">
+        Do you really want to delete these records?<br>
+        This process cannot be undone
+    </p>
+    <button type="button" class="btn btn-md btn-light" data-dismiss="modal">Cancel</button>
+    <button type="submit" class="btn btn-md btn-danger " >Delete</button>
+</form> 

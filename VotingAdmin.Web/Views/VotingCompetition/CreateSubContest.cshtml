@@ -1,0 +1,95 @@
+﻿@using VotingAdmin.Web.Dtos.contest;
+@model AddSubContest
+
+<form id="formCreateSubContest">
+    <div class="collapsess show mb-3">
+
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <label>Contest</label>
+                <select name="ContestId" class="form-control" asp-for="ContestId" asp-items="@ViewBag.Contestlist">
+                    <option value="">All</option>
+                    <option value="20">Some contest</option>
+                </select>
+                <span asp-validation-for="ContestId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-12 p-0">
+            <div class="p-3 bg-secondary-light shadow-sm mt-10">
+                <div class="row  ">
+                    <div class="col-sm-6 mb-3">
+                        <label for="exampleInputEmail1">Sub Competition Name </label>
+                        <input type="text" asp-for="SubContestDtos[0].SubContestName" class="form-control">
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="exampleInputEmail1">Banner </label>
+                        <input type="file" asp-for="SubContestDtos[0].BannerImg" accept="image/*"  class="form-control">
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <label for="exampleInputEmail1">Description </label>
+                        <textarea asp-for="SubContestDtos[0].SubContestDesc"  class="form-control" rows="2"></textarea>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+   @* <h6 class="text-success">Do you want add more Sub Competition?</h6>
+    <button type="button" class="btn btn-md btn-success btn-sm " data-toggle="collapse" href="#sub-competition">
+        <i class="fa-solid fa-plus"></i>Add
+    </button>
+
+    <div class="collapse  mb-3" id="sub-competition">
+        <div class="col-sm-12 p-0">
+            <div class="p-3 bg-secondary-light shadow-sm mt-10">
+                <div class="row  ">
+                    <div class="col-sm-6 mb-3">
+                        <label for="exampleInputEmail1">Sub Competition Name </label>
+                        <input type="text" asp-for="SubContestDtos[1].SubContestName" class="form-control">
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="exampleInputEmail1">Banner </label>
+                        <input type="file" asp-for="SubContestDtos[1].BannerImg" class="form-control">
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <label for="exampleInputEmail1">Description </label>
+                        <textarea asp-for="SubContestDtos[1].SubContestDesc" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+    <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-sm btn-primary">Add SubContest</button>
+    </div>
+</form>
+
+<script>
+
+    FormHandler.init({
+        method: 'POST',
+        actionUrl: '@Url.Action("CreateSubContest", "VotingCompetition")',
+        containerSelector: '#add-new .modal-body',
+        selector: '#formCreateSubContest'
+    }, function () {
+        $("#add-new .modal-body").html("");
+        $("#add-new .modal-title").html("");
+        $("#add-new").modal('hide');
+
+        //new PNotify({
+        //    // title: 'Success ',
+        //    text: 'Rates Created Successfully',
+        //    type: 'success',
+        //    animation: {
+        //        effect_in: 'fade',
+        //        effect_out: 'slide'
+        //    }
+
+        //});
+
+        Pagination.getData();
+    });
+</script>

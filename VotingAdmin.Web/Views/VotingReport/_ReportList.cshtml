@@ -1,0 +1,51 @@
+﻿@using VotingAdmin.Web.Common.Paging;
+@using VotingAdmin.Web.Models.Pagination;
+@using VotingAdmin.Web.Models.Reports;
+@model PagedResponse<VotingTransactinReport>
+
+<div class="table-responsive">
+    <table id="zero-configuration" class="display table nowrap table-striped table-hover text-center" style="width:100%">
+        <thead>
+            <tr>
+                <th width="10%">Txn Date</th>
+                <th width="10%">MerchantId</th>
+                <th width="10%">ContestName</th>
+                <th width="10%">SubContestName</th>
+                <th width="10%">ContestantName</th>
+                <th width="10%">MemberName</th>
+                <th width="10%">MemberEmail</th>
+                <th width="10%">MemberNumber</th>
+                <th width="10%">FreeVotes</th>
+                <th width="10%">PaidVotes</th>
+                <th width="10%">Amount</th>
+                <th width="10%">PaymentMethodName</th>
+                <th width="10%">PaymentGatewayName</th>
+                <th width="10%">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Transection in Model.Items)
+            {
+                <tr>
+                    <td>@Transection.TxnDateString</td>
+                    <td>@Transection.MerchantId</td>
+                    <td>@Transection.ContestName</td>
+                    <td>@Transection.SubContestName</td>
+                    <td>@Transection.ContestantName</td>
+                    <td>@Transection.MemberName</td>
+                    <td>@Transection.MemberEmail</td>
+                    <td>@Transection.MemberNumber</td>
+                    <td>@Transection.FreeVotes</td>
+                    <td>@Transection.PaidVotes</td>
+                    <td>@Transection.Amount</td>
+                    <td>@Transection.PaymentMethodName</td>
+                    <td>@Transection.PaymentGatewayName</td>
+                    <td>@Transection.Status</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+<partial name="_PaginationFooter"
+         model="new PaginationFooter(Model.PageNumber, Model.PageSize, Model.Items.Count(), Model.FilteredCount, Model.TotalCount, Model.TotalPages)" />

@@ -1,0 +1,127 @@
+﻿@using VotingAdmin.Web.Dtos.Users.UserDetails;
+@using VotingAdmin.Web.Models.Pagination;
+
+@model UsersList
+
+<table class="display table nowrap table-striped table-hover text-center" style="width:100%">
+    <thead class="">
+        <tr>
+            <th class="text-nowrap">S.N</th>
+            @{
+                Func<string, bool> isActive = (x) => x.Equals(Model.SortBy, StringComparison.InvariantCultureIgnoreCase);
+                var sortOrderInverted = Model.SortOrder.Equals("ASC", StringComparison.InvariantCultureIgnoreCase) ? "DESC" : "ASC";
+
+                var isActiveFullName = isActive(nameof(UserDetails.FullName));
+                <th class="text-nowrap" @(isActiveFullName ? "data-sortbyactive=true" : string.Empty)
+                    data-sortby="@nameof(UserDetails.FullName)" data-sortorder="@(isActiveFullName ? sortOrderInverted : "ASC")">
+                    Name <i class="fa fa-sort @(isActiveFullName ? "text-primary": string.Empty)" aria-hidden="true"></i>
+                </th>
+
+                var isActiveMobile = isActive(nameof(UserDetails.Mobile));
+                <th class="text-nowrap" @(isActiveMobile? "data-sortbyactive=true" : string.Empty)
+                    data-sortby="@nameof(UserDetails.Mobile)" data-sortorder="@(isActiveMobile ? sortOrderInverted : "ASC")">
+                    Mobile <i class="fa fa-sort @(isActiveMobile ? "text-primary": string.Empty)" aria-hidden="true"></i>
+                </th>
+
+                var isActiveEmail = isActive(nameof(UserDetails.Email));
+                <th class="text-nowrap @(isActiveEmail ? "bg-secondary" : string.Empty)" @(isActiveEmail? "data-sortbyactive=true" : string.Empty)
+                    data-sortby="@nameof(UserDetails.Email)" data-sortorder="@(isActiveEmail ? sortOrderInverted : "ASC")">
+                    Email <i class="fa fa-sort @(isActiveEmail ? "text-primary": string.Empty)" aria-hidden="true"></i>
+                </th>
+            }
+            <th class="text-nowrap">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var itemIndex = Math.Max(((Model.PageNumber - 1) * Model.PageSize) + 1, 1);
+            foreach (var item in Model.Items)
+            {
+                @if (item.IsActive)
+                {
+                    <tr>
+                        <td>
+                            @itemIndex
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mobile)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td class="status">
+                            @{
+                                if (ViewBag.update)
+                                {
+                                    <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("AssignUserToRole","Users",new {id=item.Id })', 'Assign Role')"><i data-toggle="tooltip" title="" class="text-c-orange fh-10" data-feather="user-check" data-original-title="Assign Role"></i></a>
+                                    <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("ResetPassword","Users",new {id=item.Id })', 'Reset Password','modal-md')"><i data-toggle="tooltip" title="" class="text-c-purple fh-10" data-feather="key" data-original-title="Reset Password"></i></a>
+                                    <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("Edit","Users",new {id=item.Id })', 'Update Users')"><i data-toggle="tooltip" title="" class="text-c-green fh-10" data-feather="edit" data-original-title="Edit"></i></a>
+                                }
+                                if (ViewBag.delete)
+                                {
+                                    <a style="cursor:pointer" onclick="PopUPAjaxDelete('@Url.Action("Delete","Users",new {id=item.Id })','Delete Users')"><i data-toggle="tooltip" title="" class="text-c-red fh-10" data-feather="trash-2" data-original-title="Delete"></i></a>
+                                }
+                                if (ViewBag.view)
+                                {
+                                    <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("Details","Users",new {id=item.Id })', 'Users Details')"><i data-toggle="tooltip" title="" class="text-c-yellow fh-10" data-feather="eye" data-original-title="View"></i></a>
+                                }
+                            }
+
+
+
+
+                        </td>
+
+                    </tr>
+                }
+                else
+                {
+                    <tr style="background-color:rgb(255, 179, 179);">
+                        <td>
+                            @itemIndex
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mobile)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td class="status">
+                            @{
+                                if (ViewBag.update)
+                                {
+                                    <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("AssignUserToRole","Users",new {id=item.Id })', 'Assign Role')"><i data-toggle="tooltip" title="" class="text-c-orange fh-10" data-feather="user-check" data-original-title="Assign Role"></i></a>
+                                    <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("ResetPassword","Users",new {id=item.Id })', 'Reset Password','modal-md')"><i data-toggle="tooltip" title="" class="text-c-purple fh-10" data-feather="key" data-original-title="Reset Password"></i></a>
+                                    <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("Edit","Users",new {id=item.Id })', 'Update Users')"><i data-toggle="tooltip" title="" class="text-c-green fh-10" data-feather="edit" data-original-title="Edit"></i></a>
+                                }
+                                if (ViewBag.delete)
+                                {
+                                    //<a style="cursor:pointer" onclick="PopUPAjaxDelete('@Url.Action("Delete","Users",new {id=item.Id })','Delete Users')"><i data-toggle="tooltip" title="" class="text-c-red fh-10" data-feather="trash-2" data-original-title="Delete"></i></a>
+                                }
+                                if (ViewBag.view)
+                                {
+                                    <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("Details","Users",new {id=item.Id })', 'Users Details')"><i data-toggle="tooltip" title="" class="text-c-yellow fh-10" data-feather="eye" data-original-title="View"></i></a>
+                                }
+                            }
+
+
+
+
+                        </td>
+
+                    </tr>
+                }
+                
+                itemIndex++;
+            }
+        }
+    </tbody>
+</table>
+<partial name="_PaginationFooter"
+         model="new PaginationFooter(Model.PageNumber, Model.PageSize, Model.Items.Count(), Model.FilteredCount, Model.TotalCount, Model.TotalPages)" />

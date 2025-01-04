@@ -1,0 +1,26 @@
+﻿@using VotingAdmin.Web.Dtos.Pagination;
+
+@model Pagination
+@{
+    Layout = null;
+}
+<div class="w-56 d-inline-flex align-items-center position-relative text-gray-700 dark-text-gray-300 m-l-20 m-t-10">
+    <span class="mr-1"><label class="col-form-label-sm">Show</label></span>
+    <div class="mdi-format-align-left">
+        <select class="w-20 form-select-lg d-inline-block box mt-3 mt-sm-0" style="cursor:pointer" id="pagesize_@Model.Controller" onchange="ChangePagesize('/@Model.Controller/@Model.Action', 0)" name="pageSize">
+            @foreach (var opt in Model.PageSizeOptions)
+            {
+                if (opt.Text == Model.PageSize.ToString())
+                {
+                    <option selected value="@opt.Text">@opt.Text</option>
+                }
+                else
+                {
+                    <option value="@opt.Text">@opt.Text</option>
+                }
+            }
+        </select>
+    </div>
+   
+    <span class="ml-1"><label class="col-form-label-sm">entries</label></span>
+</div>

@@ -1,0 +1,53 @@
+﻿@using VotingAdmin.Web.Models.Contest;
+@model DeleteContest
+
+<form id="UnPublishContestform" method="post" autocomplete="off" class="text-center">
+    <input type="hidden" asp-for="ContestId" />
+    <ul>
+        @if (ViewBag.Error is not null)
+        {
+            @foreach (var error in ViewBag.Error)
+            {
+                <li class="text-danger">@error</li>
+            }
+        }
+    </ul>
+    @*<i class="fa fa-circle-xmark text-danger fa-5x mb-20 m-t-15 "></i>*@
+    <h3 class="m-t-25">Are you sure?</h3>
+    <p class="m-t-25 m-b-15">
+        Do you really want to UnPublish This Contest?<br>
+
+    </p>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-sm btn-primary">UnPublish</button>
+    </div>
+</form>
+
+<script>
+
+    FormHandler.init({
+        method: 'POST',
+        actionUrl: '@Url.Action("UnPublishContest", "VotingCompetition")',
+        containerSelector: '#add-new .modal-body',
+        selector: '#UnPublishContestform'
+    }, function () {
+        $("#add-new .modal-body").html("");
+        $("#add-new .modal-title").html("");
+        $("#add-new").modal('hide');
+        //new PNotify({
+        //    // title: 'Success ',
+        //    text: 'Rates Deleted Successfully',
+        //    type: 'success',
+
+        //    animation: {
+        //        effect_in: 'fade',
+        //        effect_out: 'slide'
+        //    }
+
+        //});
+        Pagination.getData();
+    });
+</script>

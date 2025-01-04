@@ -1,0 +1,79 @@
+﻿@using VotingAdmin.Web.Dtos.Users.UserDetails
+@model UpdateUserDetailsDto
+<form id="formEditUser" method="post" autocomplete="off">
+    <ul>
+        @if (ViewBag.Error is not null)
+        {
+            @foreach (var error in ViewBag.Error)
+            {
+                <li class="text-danger">@error</li>
+            }
+        }
+    </ul>
+    <div class="row">
+        <input type="hidden" asp-for="id" />
+        <input type="hidden" asp-for="isActive" />
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">Full Name <span style="color:firebrick">*</span></label>
+            <input asp-for="fullName" type="text" class="form-control">
+            <span asp-validation-for="fullName" class="text-danger"></span>
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">Profile Image</label>
+            <input asp-for="ProfileImage" type="file" class="form-control">
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">Gender</label>
+            <br>
+            @foreach (var lists in (SelectList)ViewBag.Gender)
+            {
+                <div class="form-group d-inline">
+                    <span class="nowrap">
+                        @Html.RadioButtonFor(m => m.gender, lists.Value, new { id = "Gender" + lists.Value, name = "Lists", @value = lists.Value, @text = lists.Text })
+                        <label for="list@(lists.Value)">@lists.Text</label>
+                    </span>
+                </div>
+            }
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">DOB</label>
+            <input asp-for="dateOfBirth" onkeydown="return false" max="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" class="form-control">
+        </div>      
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">Joining Date</label>
+            <input asp-for="dateOfJoining" onkeydown="return false" max="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" class="form-control">
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">Address</label>
+            <textarea asp-for="address" class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
+    </div>
+</form>
+<script>
+
+      FormHandler.init({
+        method: 'POST',
+        actionUrl: '@Url.Action("Edit", "Users")',
+        containerSelector: '#add-new .modal-body',
+          selector: '#formEditUser'
+      }, function () {
+        $("#add-new .modal-body").html("");
+        $("#add-new .modal-title").html("");
+          $("#add-new").modal('hide');
+          //    new PNotify({
+          //    // title: 'Success ',
+          //    text:'User Updated Successfully',
+          //    type: 'success',
+          //    animation: {
+          //        effect_in: 'fade',
+          //        effect_out: 'slide'
+          //    }
+
+          //});
+        Pagination.getData();
+    });
+</script>

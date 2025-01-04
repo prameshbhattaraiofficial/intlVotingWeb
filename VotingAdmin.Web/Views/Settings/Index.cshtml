@@ -1,0 +1,124 @@
+﻿@using VotingAdmin.Web.Dtos.GlobalSetting;
+
+@model GlobalsettingDto
+
+<section class="">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index-2.html"><i class="fa-solid fa-house"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="#!">Global Setting</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <!-- [ configuration table ] start -->
+                            <!-- [ Fixed Header ] start -->
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="">
+                                     
+                                        <div id="GlobalSettingIndex" class="table-responsive">
+                                            <partial name="_SettingIndex" model="@Model" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ Fixed Header ] end -->
+
+
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+@section Scripts{
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    @*<script src="~/js/admin.pagination.js" asp-append-version="true"></script>*@
+    <script src="~/assets/js/pages/tbl-datatable-custom.js"></script>
+    @*<script src="~/js/admin.users.js" asp-append-version="true"></script>*@
+
+
+
+    <script>
+        $(document).ready(function () {
+
+            if ($('#buytxnlimit').is(":checked") == false) {
+                $("#buytxnlimittoggle").hide();
+            }
+            if ($('#selltxnlimit').is(":checked") == false) {
+                $("#selltxnlimittoggle").hide();
+            }
+            if ($('#Invtxnlimit').is(":checked") == false) {
+                $("#Invtxnlimittoggle").hide();
+            }
+            if ($('#Deliverytxnlimit').is(":checked") == false) {
+                $("#Deliverytxnlimittoggle").hide();
+            }
+            if ($('#Gifttxnlimit').is(":checked") == false) {
+                $("#Gifttxnlimittoggle").hide();
+            }
+            if ($('#Ornamenttxnlimit').is(":checked") == false) {
+                $("#Ornamenttxnlimittoggle").hide();
+            }
+        });
+
+        $('input[type="checkbox"]').click(function () {
+            var InputValueid = $(this).attr("id");
+            var DivValueid = $(this).attr("id") + 'toggle';
+            var minValueid = 'min' + $(this).attr("id");
+            var maxValueid = 'max' + $(this).attr("id");
+
+            if ($("#" + InputValueid).is(":checked")) {
+                $("#" + DivValueid).show();
+               
+            }      
+            else {
+                $("#" + DivValueid).hide();
+                //var minvalue = $("#" + minValueid).val();
+                //var maxvalue = $("#" + maxValueid).val();
+                //if (parseInt(minvalue) > parseInt(maxvalue)) {
+                   
+                //   $("#" + minValueid).val(0);                 
+                //}
+               
+            }
+        });
+
+
+            $('input[type="number"]').change(function () {
+    
+               var Valueid =  $(this).attr("id");
+
+                var val = $("#" + Valueid).val();
+               
+                if (val<0){
+                    $("#" + Valueid).val(0);
+                }
+        });
+
+    </script>
+
+}
+

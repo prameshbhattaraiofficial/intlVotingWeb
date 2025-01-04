@@ -1,0 +1,106 @@
+﻿@using VotingAdmin.Web.Dtos.Roles;
+
+@model RoleList
+@{
+    int sn = 1;
+}
+
+<div class="card-block">
+    <div class="table-responsive">
+        <table id="zero-configuration" class="display table nowrap table-striped table-hover text-center" style="width:100%">
+            <thead class="">
+                <tr>
+                    <th class="text-nowrap" width="10%">S.N</th>
+                    <th class="text-nowrap" width="20%">Role</th>
+                    <th class="text-nowrap" width="10%">Status</th>
+                    <th class="text-nowrap" width="50%">Access </th>
+                    <th class="text-nowrap" width="10%">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Data)
+                {
+                    var status = item.isActive == true ? "checked" : "Unchecked";
+                    <tr>
+                        <td>@sn</td>
+                        <td>@item.roleName</td>
+                        <td>@item.description</td>
+
+
+                        @if (item.roleName is "Admin")
+                        {
+                            <td>
+                                <div class="switch-form-group">
+                                    <div class="switch switch-danger d-inline m-r-10">
+                                        <input disabled type="checkbox" onclick="ChangeStatus(@item.id, '@item.roleName', '@item.description')" @status id="switch-@item.id">
+                                        <label for="switch-@item.id" class="cr"></label>
+                                    </div>
+                                    <label></label>
+                                </div>
+                            </td>
+
+                            <td class="status">
+                                <a style="cursor: not-allowed;"><i data-toggle="tooltip" title="" class="text-c-green fh-10" data-feather="edit" data-original-title="Edit"></i></a>
+                                <a style="cursor: not-allowed; text-decoration:none"><i data-toggle="tooltip" title="" class="text-c-yellow fh-10" data-feather="settings" data-original-title="Assign Role "></i></a>
+                                <a style="cursor: not-allowed; text-decoration:none"><i data-toggle="tooltip" title="" class="text-c-red fh-10" data-feather="trash-2" data-original-title="Delete"></i></a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @{
+                                    if (ViewBag.update)
+                                    {
+                                        <div class="switch-form-group">
+                                            <div class="switch switch-danger d-inline m-r-10">
+                                                <input type="checkbox" onclick="ChangeStatus(@item.id, '@item.roleName', '@item.description')" @status id="switch-@item.id">
+                                                <label for="switch-@item.id" class="cr"></label>
+                                            </div>
+                                            <label></label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+
+                                        <div class="switch-form-group">
+                                            <div class="switch switch-danger d-inline m-r-10">
+                                                <input disabled type="checkbox" onclick="ChangeStatus(@item.id, '@item.roleName', '@item.description')" @status id="switch-@item.id">
+                                                <label for="switch-@item.id" class="cr"></label>
+                                            </div>
+                                            <label></label>
+                                        </div>
+                                    }
+                                }
+
+                            </td>
+                            <td class="status">
+                                @{
+                                    if (ViewBag.update)
+                                    {
+                                        <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("Update","Roles",new {id=item.id })', 'Update Role','modal-dialog modal-md')"><i data-toggle="tooltip" title="" class="text-c-green fh-10" data-feather="edit" data-original-title="Edit"></i></a>
+                                        <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("Setting","Roles",new {id=item.id })', 'Assign Role Permissions')"><i data-toggle="tooltip" title="" class="text-c-yellow fh-10" data-feather="settings" data-original-title="Assign Role "></i></a>
+                                    }
+                                    if (ViewBag.delete)
+                                    {
+                                        <a style="cursor:pointer" onclick="PopUPAjaxDelete('@Url.Action("Delete","Roles",new {id=item.id })', 'Delete Role')"><i data-toggle="tooltip" title="" class="text-c-red fh-10" data-feather="trash-2" data-original-title="Delete"></i></a>
+                                    }
+                                }
+
+
+
+                            </td>
+
+                        }
+
+
+                    </tr>
+                    sn++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="~/js/Roles/RoleIndex.js"></script>
+<partial name="_ValidationScriptsPartial" />
+<script src="~/assets/js/pages/tbl-datatable-custom.js"></script>
+

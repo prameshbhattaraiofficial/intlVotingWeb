@@ -1,0 +1,150 @@
+﻿@using System.Collections;
+@using Voting.Core.Models.Contest;
+@using VotingAdmin.Web.Dtos.Contestant;
+
+@model CreateContestantDto
+
+@{
+    var contestlist = @ViewBag.Contestlist;
+   
+}
+<form id="formCreateContestant">
+    <ul>
+       
+        @if (ViewBag.Error is not null)
+        {
+       
+            @foreach (var error in ViewBag.Error)
+            {
+              
+                <li class="text-danger">@error</li>
+            }
+        }
+    </ul>
+    <div class="row">
+        <div class="col-sm-6 mb-3">
+           
+            <label for="exampleInputEmail1">Competition Name</label>
+            <select name="ContestId"
+                    onchange="Cascadedropdown('@Url.Action("GetSubContest","VotingContestant")','?ContestId='+this.value,'SubContestId');"
+                class="form-control" asp-for="ContestId">
+                <option value="0">All</option>
+                @foreach (var contest in contestlist)
+                {
+                    <option value="@contest.Id">@contest.Text</option>
+                }
+               
+            </select>
+            <span asp-validation-for="ContestId" class="text-danger"></span>
+          
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">Sub Competition Name</label>
+            <select name="SubContestId" class="form-control" id="SubContestId" asp-for="SubContestId" asp-items="@ViewBag.SubContestlist" >
+                <option value="">All</option>
+
+            </select>
+            <span asp-validation-for="SubContestId" class="text-danger"></span>
+        </div>
+        
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">Candidate Name</label>
+            <input type="text"  asp-for="ContestantName" class="form-control">
+            <span asp-validation-for="ContestantName" class="text-danger"></span>
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">Candidate Number</label>
+            <input type="number" asp-for="ContestantNo"  class="form-control">
+            <span asp-validation-for="ContestantNo" class="text-danger"></span>
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">Age</label>
+            <input type="text" asp-for="Age" class="form-control">
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">Gender</label>
+            <select asp-for="GenderId" class="form-control">
+                <option value="1">Male</option>
+                <option value="2">Female</option>
+                <option value="3">Other</option>
+            </select>
+
+        </div>
+
+
+        <div class="col-sm-12 mb-3">
+            <label for="exampleInputEmail1">Description</label>
+            <textarea asp-for="Description" class="form-control" row=2></textarea>
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">Upload Photo </label>
+            <input type="file" asp-for="PhotoImage" accept="image/*"  class="form-control">
+            <span asp-validation-for="PhotoImage" class="text-danger"></span>
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">Contact Number</label>
+            <input type="text" asp-for="ContactNumber" onkeypress="return isNumberOnly(event)" class="form-control">
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">Email Address</label>
+            <input type="text" asp-for="EmailAddress" class="form-control">
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">Country</label>
+            <select asp-for="CountryCode" class="form-control">
+                <option value="NP">Nepal</option>
+            </select>
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">City</label>
+            <input type="text" asp-for="City" class="form-control">
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">Address</label>
+            <input type="text" asp-for="Address" class="form-control">
+        </div>
+
+        <div class="col-sm-6 mb-3">
+            <label>Status</label>
+            <div class="form-group">
+                <div class="checkbox checkbox-danger d-inline">
+                    <input type="checkbox" asp-for="IsActive" name="IsActive" id="IsActive">
+                    <label for="IsActive" class="cr">is Active.</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-sm btn-primary">Add Contestant</button>
+    </div>
+
+</form>
+<script type='text/javascript' src="~/js/ValidationScript.js"></script>
+
+<script>
+
+    FormHandler.init({
+        method: 'POST',
+        actionUrl: '@Url.Action("CreateContestant", "VotingContestant")',
+        containerSelector: '#add-new .modal-body',
+        selector: '#formCreateContestant'
+    }, function () {
+        $("#add-new .modal-body").html("");
+        $("#add-new .modal-title").html("");
+        $("#add-new").modal('hide');
+
+        //new PNotify({
+        //    // title: 'Success ',
+        //    text: 'Rates Created Successfully',
+        //    type: 'success',
+        //    animation: {
+        //        effect_in: 'fade',
+        //        effect_out: 'slide'
+        //    }
+
+        //});
+
+        Pagination.getData();
+    });
+</script>

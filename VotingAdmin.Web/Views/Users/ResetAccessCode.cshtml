@@ -1,0 +1,67 @@
+﻿@using VotingAdmin.Web.Dtos.Users.UserDetails
+@model ChangeAccessCode
+
+<form id="formresetAccessCode" method="post" autocomplete="off">
+    <ul>
+        @if (ViewBag.Error is not null)
+        {
+            @foreach (var error in ViewBag.Error)
+            {
+                <li class="text-danger">@error</li>
+            }
+        }
+    </ul>
+    <div class="row">
+        <div class="col-sm-12 mb-3">
+            <label for="exampleInputEmail1">Current Password </label>
+            <input asp-for="currentPassword" type="password" class="form-control">
+            <span class="text-danger" asp-validation-for="currentPassword"></span>
+        </div>
+        <div class="col-sm-12 mb-3">
+            <label for="exampleInputEmail1">New Access Code </label>
+            <input asp-for="newPIN" minlength="4" maxlength="8" type="password" class="form-control">
+            <span class="text-danger" asp-validation-for="newPIN"></span>
+
+        </div>
+        <div class="col-sm-12 mb-3">
+            <label for="exampleInputEmail1">Re-enter Access Code </label>
+            <input asp-for="confirmPIN" minlength="4" maxlength="8" type="password" class="form-control">
+            <span class="text-danger" asp-validation-for="confirmPIN"></span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+    </div>
+</form>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+
+    <script src="~/js/admin.users.js" asp-append-version="true"></script>
+    <script>
+      FormHandler.init({
+        method: 'POST',
+        actionUrl: '@Url.Action("ResetAccessCode", "Users")',
+        containerSelector: '#add-new .modal-body',
+          selector: '#formresetAccessCode'
+      }, function () {
+        $("#add-new .modal-body").html("");
+        $("#add-new .modal-title").html("");
+          $("#add-new").modal('hide');
+          //    new PNotify({
+          //    // title: 'Success ',
+          //    text:'Password Reset Successfully',
+          //    type: 'success',
+          //    animation: {
+          //        effect_in: 'fade',
+          //        effect_out: 'slide'
+          //    }
+
+          //});
+    /*    Pagination.getData();*/
+    });
+    </script>
+
+

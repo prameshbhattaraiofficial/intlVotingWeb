@@ -1,0 +1,467 @@
+﻿@using VotingAdmin.Web.Dtos.GlobalSetting;
+
+@model GlobalsettingDto
+
+<form asp-action="Index" asp-controller="Settings"  id="formGlobalsetting">
+    <ul>
+        @if (ViewBag.Error is not null)
+        {
+            @*@foreach (var error in ViewBag.Error)
+                {
+                    <li class="text-danger">@error</li>
+                }*@
+            <li class="text-danger">@ViewBag.Error</li>
+        }
+
+    </ul>
+    <div class="card-header">
+        <h5>General Setting</h5>
+    </div>
+    <div class="card-block">
+        <div class="row">
+            <div class="col-sm-2 mb-3">
+                <label for="exampleInputEmail1">Language</label>
+                <select asp-for="languageCode" class="form-control">
+                    <option>Eng</option>
+                    <option>Nep</option>
+                </select>
+            </div>
+            <div class="col-sm-2 mb-3">
+                <label for="exampleInputEmail1">Currency</label>
+                <input asp-for="currencyFormat" onkeypress="return lettersOnly(event)" type="text" class="form-control">
+            </div>
+            <div class="col-sm-3 mb-3">
+                <label for="exampleInputEmail1">Date Format</label>
+                <select asp-for="dateFormat" class="form-control">
+                    <option value="MMDDYY">MMDDYYYY</option>
+                    <option value="YYYYDDMM">YYYYDDMM</option>
+                    <option value="DDMMYYYY">DDMMYYYY</option>
+                </select>
+            </div>
+            <div class="col-sm-2 mb-3">
+                <label for="exampleInputEmail1">Delimeter</label>
+               @* <input asp-for="delimeter" type="text" maxlength="1" onkeypress="return containsOnlySpecialCharacters(event)" class="form-control" placeholder="-">*@
+                <select asp-for="delimeter" class="form-control">
+                    <option value="-">Dash(-)</option>
+                    <option value="/">Slash(/)</option>
+                    <option value=".">Dot(.)</option>
+                </select>
+            </div>
+            <div class="col-sm-3 mb-3">
+                <label for="exampleInputEmail1">Time Format</label>
+                <select asp-for="timeFormat" class="form-control">
+                    <option value="24-hour">24-hour</option>
+                    <option value="12-hour">12-hour</option>
+
+                </select>
+            </div>
+
+        </div>
+    </div>
+    <div class="card-header">
+        <h5>Transactional Setting</h5>
+    </div>
+    <div class="card-block">
+        <div class="row">
+            <div class="col-sm-3 mb-3">
+                <h6 for="exampleInputEmail1">Email Verification Required</h6>
+                <label class="switch switch-green">
+                    <input asp-for="emailVerificationRequiredForTxn" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+
+            <div class="col-sm-3 mb-3">
+                <h6 for="exampleInputEmail1">Mobile Verification Required</h6>
+                <label class="switch switch-green">
+                    <input asp-for="mobileVerificationRequiredForTxn" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+            <div class="col-sm-3 mb-3">
+                <h6 for="exampleInputEmail1">KYC Verification Required</h6>
+                <label class="switch switch-green">
+                    <input asp-for="kycVerificationRequiredForTxn" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+        </div>
+        <h4 class="mt-15">Charge Applicable For</h4>
+        <hr class="mt-0">
+        <div class="row">
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">Buy TXN </h6>
+                <label class="switch switch-green">
+                    <input asp-for="buyTxnChargeApplicable" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">Sell TXN </h6>
+                <label class="switch switch-green">
+                    <input asp-for="sellTxnChargeApplicable" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">Invest TXN </h6>
+                <label class="switch switch-green">
+                    <input asp-for="investTxnChargeApplicable" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">Delivery TXN </h6>
+                <label class="switch switch-green">
+                    <input asp-for="deliveryTxnChargeApplicable" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">Gift TXN </h6>
+                <label class="switch switch-green">
+                    <input asp-for="giftTxnChargeApplicable" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">Ornament TXN </h6>
+                <label class="switch switch-green">
+                    <input asp-for="ornamentTxnChargeApplicable" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+        </div>
+
+        <h4 class="mt-15">Default Txn Charge Setting</h4>
+        <hr class="mt-0">
+        <div class="row">
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1"> Buy Txn</h6>
+                <div class="input-group mb-3">
+                    <input asp-for="defaultBuyChargeValue" onkeypress="return isNumber(event)" type="number" class="form-control" placeholder="6">
+                </div>
+                <span asp-validation-for="defaultBuyChargeValue" class="text-danger"></span>
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">Sell Txn</h6>
+                <div class="input-group mb-3">
+                    <input asp-for="defaultSellChargeValue" onkeypress="return isNumber(event)" type="number" class="form-control" placeholder="6">
+                </div>
+                <span asp-validation-for="defaultSellChargeValue" class="text-danger"></span>
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">Gift Txn</h6>
+                <div class="input-group mb-3">
+                    <input asp-for="defaultGiftChargeValue" onkeypress="return isNumber(event)" type="number" class="form-control" placeholder="6">
+                </div>
+                @*<span asp-validation-for="forcedChangedPasswordDurationInMonth" class="text-danger"></span>*@
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">Ornament Txn</h6>
+                <div class="input-group mb-3">
+                    <input asp-for="defaultOrnamentChargeValue" onkeypress="return isNumber(event)" type="number" class="form-control" placeholder="6">
+                </div>
+                @*<span asp-validation-for="forcedChangedPasswordDurationInMonth" class="text-danger"></span>*@
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">Invest Txn</h6>
+                <div class="input-group mb-3">
+                    <input asp-for="defaultInvestChargeValue" onkeypress="return isNumber(event)" type="number" class="form-control" placeholder="6">
+                </div>
+                @*<span asp-validation-for="forcedChangedPasswordDurationInMonth" class="text-danger"></span>*@
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">Delivery Txn</h6>
+                <div class="input-group mb-3">
+                    <input asp-for="defaultDeliveryChargeValue" onkeypress="return isNumber(event)" type="number" class="form-control" placeholder="6">
+                </div>
+                @*<span asp-validation-for="forcedChangedPasswordDurationInMonth" class="text-danger"></span>*@
+            </div>
+
+        </div>
+
+
+        <h4 class="mt-15">Per Transaction Limits Required </h4>
+        <hr class="mt-0">
+        <div class="row">
+
+            <div class="col-sm-4 mb-3">
+                <h6 for="exampleInputEmail1">Buy Txn Limit</h6>
+                <label class="switch switch-green">
+                    <input asp-for="buyTxnLimitRequired" type="checkbox" class="switch-input" id="buytxnlimit">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+                <span id="buytxnlimittoggle">
+                    <input asp-for="buyMinimumTxnLimit" type="number" data-toggle="tooltip" data-original-title="Min Txn Limit" id="minbuytxnlimit" onkeypress="return isNumber(event)" class="transaction-limit buytxnlimit" placeholder="min">
+
+                    <input asp-for="buyMaximumTxnLimit" type="number" data-toggle="tooltip" data-original-title="Max Txn Limit" id="maxbuytxnlimit" onkeypress="return isNumber(event)" class="transaction-limit buytxnlimit" placeholder="max">
+                    <span asp-validation-for="buyMinimumTxnLimit" class="text-danger"></span>
+                    <span asp-validation-for="buyMaximumTxnLimit" class="text-danger"></span>
+
+                </span>
+
+            </div>
+            <div class="col-sm-4 mb-3">
+                <h6 for="exampleInputEmail1">Sell Txn Limit </h6>
+                <label class="switch switch-green">
+                    <input asp-for="sellTxnLimitRequired" type="checkbox" class="switch-input" id="selltxnlimit">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+                <span id="selltxnlimittoggle">
+                    <input asp-for="sellMinimumTxnLimit" data-toggle="tooltip" data-original-title="Min Txn Limit" id="minselltxnlimit" type="number" onkeypress="return isNumber(event)" class=" transaction-limit selltxnlimit" placeholder="min">
+                    <input asp-for="sellMaximumTxnLimit" data-toggle="tooltip" data-original-title="Max Txn Limit" id="maxselltxnlimit" type="number" onkeypress="return isNumber(event)" class="transaction-limit selltxnlimit" placeholder="max">
+                    <span asp-validation-for="sellMinimumTxnLimit" class="text-danger"></span>
+                    <span asp-validation-for="sellMaximumTxnLimit" class="text-danger"></span>
+                </span>
+            </div>
+            <div class="col-sm-4 mb-3">
+                <h6 for="exampleInputEmail1">Invest Txn Limit</h6>
+                <label class="switch switch-green">
+                    <input asp-for="investTxnLimitRequired" type="checkbox" class="switch-input" id="Invtxnlimit">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+                <span id="Invtxnlimittoggle">
+                    <input asp-for="investMinimumTxnLimit" data-toggle="tooltip" data-original-title="Min Txn Limit" id="minInvtxnlimit" type="number" onkeypress="return isNumber(event)" class=" transaction-limit Invtxnlimit" placeholder="min">
+                    <input asp-for="investMaximumTxnLimit" data-toggle="tooltip" data-original-title="Max Txn Limit" id="maxInvtxnlimit" type="number" onkeypress="return isNumber(event)" class="transaction-limit Invtxnlimit" placeholder="max">
+                    <span asp-validation-for="investMinimumTxnLimit" class="text-danger"></span>
+                    <span asp-validation-for="investMaximumTxnLimit" class="text-danger"></span>
+                </span>
+            </div>
+            <div class="col-sm-4 mb-3">
+                <h6 for="exampleInputEmail1">Delivery Txn Limit</h6>
+                <label class="switch switch-green">
+                    <input asp-for="deliveryTxnLimitRequired" type="checkbox" class="switch-input" id="Deliverytxnlimit">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+                <span id="Deliverytxnlimittoggle">
+                    <input asp-for="deliveryMinimumTxnLimit" data-toggle="tooltip" data-original-title="Min Txn Limit" onkeypress="return isNumber(event)" id="minDeliverytxnlimit" type="number" class="transaction-limit Deliverytxnlimit" placeholder="min">
+                    <input asp-for="deliveryMaximumTxnLimit" data-toggle="tooltip" data-original-title="Max Txn Limit" onkeypress="return isNumber(event)" id="maxDeliverytxnlimit" type="number" class="transaction-limit Deliverytxnlimit" placeholder="max">
+                    <span asp-validation-for="deliveryMinimumTxnLimit" class="text-danger"></span>
+                    <span asp-validation-for="deliveryMaximumTxnLimit" class="text-danger"></span>
+                </span>
+            </div>
+            <div class="col-sm-4 mb-3">
+                <h6 for="exampleInputEmail1">Gift Txn Limit</h6>
+                <label class="switch switch-green">
+                    <input asp-for="giftTxnLimitRequired" type="checkbox" class="switch-input" id="Gifttxnlimit">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+                <span id="Gifttxnlimittoggle">
+                    <input asp-for="giftMinimumTxnLimit" id="minGifttxnlimit" type="number" data-toggle="tooltip" onkeypress="return isNumber(event)" data-original-title="Min Txn Limit" class=" transaction-limit Gifttxnlimit" placeholder="min">
+                    <input asp-for="giftMaximumTxnLimit" type="number" id="maxGifttxnlimit" data-toggle="tooltip" onkeypress="return isNumber(event)" data-original-title="Max Txn Limit" class="transaction-limit Gifttxnlimit" placeholder="max">
+                    <span asp-validation-for="giftMinimumTxnLimit" class="text-danger"></span>
+                    <span asp-validation-for="giftMaximumTxnLimit" class="text-danger"></span>
+                </span>
+            </div>
+
+            <div class="col-sm-4 mb-3">
+                <h6 for="exampleInputEmail1">Ornament Txn Limit</h6>
+                <label class="switch switch-green">
+                    <input asp-for="ornamentTxnLimitRequired" type="checkbox" class="switch-input" id="Ornamenttxnlimit">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+                <span id="Ornamenttxnlimittoggle">
+                    <input asp-for="ornamentMinimumTxnLimit" type="number" data-toggle="tooltip" data-original-title="Min Txn Limit" onkeypress="return isNumber(event)" id="minOrnamenttxnlimit" class=" transaction-limit Ornamenttxnlimit" placeholder="min">
+                    <input asp-for="ornamentMaximumTxnLimit" type="number" data-toggle="tooltip" data-original-title="Max Txn Limit" onkeypress="return isNumber(event)" id="maxOrnamenttxnlimit" class="transaction-limit Ornamenttxnlimit" placeholder="max">
+                    <span asp-validation-for="ornamentMinimumTxnLimit" class="text-danger"></span>
+                    <span asp-validation-for="ornamentMaximumTxnLimit" class="text-danger"></span>
+                </span>
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+        <!-- Mobile Notification starts -->
+        <h4 class="mt-15">Notifications Setting</h4>
+        <hr class="mt-0">
+        <div class="row">
+            <div class="col-sm-3 mb-3">
+                <h6 for="exampleInputEmail1">Send Email Notification</h6>
+                <label class="switch switch-green">
+                    <input asp-for="sendEmailNotification" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+            <div class="col-sm-3 mb-3">
+                <h6 for="exampleInputEmail1">Send Mobile Notification</h6>
+                <label class="switch switch-green">
+                    <input asp-for="sendMobileNotification" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">Send Email OTP</h6>
+                <label class="switch switch-green">
+                    <input asp-for="sendEmailOTP" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">Send Mobile OTP</h6>
+                <label class="switch switch-green">
+                    <input asp-for="sendMobileOTP" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">OTPLength</h6>
+                <div class="input-group mb-3">
+                    <input asp-for="otpLength" type="number" maxlength="2" onkeypress="return isNumber(event)" class="form-control" placeholder="6">
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2">Digits</span>
+                    </div>
+                </div>
+                <span asp-validation-for="otpLength" class="text-danger"></span>
+
+            </div>
+        </div>
+        <!-- Mobile Notification ends -->
+        <!-- Password Notification starts -->
+        <h4 class="mt-15">Password Setting</h4>
+        <hr class="mt-0">
+        <div class="row">
+            <div class="col-sm-3 mb-3">
+                <h6 for="exampleInputEmail1">Forced Change Password Req</h6>
+                <label class="switch switch-green">
+                    <input asp-for="forcedChangePasswordRequired" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+            <div class="col-sm-4 mb-3">
+                <h6 for="exampleInputEmail1">Forced Changed Password Duration</h6>
+                <div class="input-group mb-3">
+                    <input asp-for="forcedChangedPasswordDurationInMonth" maxlength="2" onkeypress="return isNumber(event)" type="number" class="form-control" placeholder="6">
+
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2">Month</span>
+                    </div>
+                </div>
+                <span asp-validation-for="forcedChangedPasswordDurationInMonth" class="text-danger"></span>
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">Password Exp Time</h6>
+                <div class="input-group mb-3">
+                    <input asp-for="registerPwdExpTimeInMinute" maxlength="4" onkeypress="return isNumber(event)" type="number" class="form-control" placeholder="6">
+
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2">Minute</span>
+                    </div>
+                </div>
+                @*<span asp-validation-for="forcedChangedPasswordDurationInMonth" class="text-danger"></span>*@
+            </div>
+            <div class="col-sm-3 mb-3">
+                <h6 for="exampleInputEmail1">Email Registration Gap Time</h6>
+                <div class="input-group mb-3">
+                    <input asp-for="SameEmailRegistrationGapTimeInMinute" maxlength="4" onkeypress="return isNumber(event)" type="number" class="form-control" placeholder="6">
+
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2">Minute</span>
+                    </div>
+                </div>
+                @*<span asp-validation-for="forcedChangedPasswordDurationInMonth" class="text-danger"></span>*@
+            </div>
+            <div class="col-sm-3 mb-3">
+                <h6 for="exampleInputEmail1">Failed Login Attempt Count</h6>
+                <div class="input-group mb-3">
+                    <input asp-for="failedLoginAttemptCount" type="number" maxlength="3" onkeypress="return isNumber(event)" class="form-control" placeholder="5">
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2">Times</span>
+                    </div>
+                </div>
+                <span asp-validation-for="failedLoginAttemptCount" class="text-danger"></span>
+            </div>
+        </div>
+        <!-- Password Notification ends -->
+        <!-- Admin Notification Starts -->
+        <h4 class="mt-15">Admin Approval Required</h4>
+        <hr class="mt-0">
+
+        <div class="row">
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">For Buy Txn</h6>
+                <label class="switch switch-green">
+                    <input asp-for="adminApprovalRequiredForBuyTxn" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">For Sell Txn</h6>
+                <label class="switch switch-green">
+                    <input asp-for="adminApprovalRequiredForSellTxn" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">For Invest Txn</h6>
+                <label class="switch switch-green">
+                    <input asp-for="adminApprovalRequiredForInvestTxn" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">For Delivery Txn</h6>
+                <label class="switch switch-green">
+                    <input asp-for="adminApprovalRequiredForDeliveryTxn" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">For Gift Txn</h6>
+                <label class="switch switch-green">
+                    <input asp-for="adminApprovalRequiredForGiftTxn" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+            <div class="col-sm-2 mb-3">
+                <h6 for="exampleInputEmail1">For Ornament Txn</h6>
+                <label class="switch switch-green">
+                    <input asp-for="adminApprovalRequiredForOrnamentTxn" type="checkbox" class="switch-input">
+                    <span class="switch-label" data-on="Yes" data-off="No"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+
+        </div>
+    </div>
+    <div class="card-footer text-right">
+        <button type="submit" class="btn btn-sm btn-primary" data-dismiss="modal">Update</button>
+        <a style="cursor:pointer" asp-action="SettingHistory" asp-controller="Settings" class="btn btn-primary btn-shadow-2 btn-sm text-light">
+            <i class="fa-solid fa-history"></i>Setting History
+        </a>
+    </div>
+</form>
+
+<script type='text/javascript' src="~/scriptjs/ValidationScript.js"></script>

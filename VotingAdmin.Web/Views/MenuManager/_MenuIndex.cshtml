@@ -1,0 +1,180 @@
+﻿@using VotingAdmin.Web.Dtos.Menus;
+
+@model List<Menuwithchield>
+
+
+
+<div>
+    <table class="__table display table nowrap table-hover " style="width:100%">
+        <thead>
+            <tr>
+
+                <th class="text-nowrap" colspan="2" width="25%">Title</th>
+                <th class="text-nowrap" width="40%">Menu URL</th>
+                <th class="text-nowrap" width="10%"> Parent ID</th>
+                <th class="text-nowrap" style="width:5%">Display Order</th>
+                <th class="text-nowrap" width="10%">Status</th>
+                <th class="text-nowrap" width="10%">Action</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var menu in Model.OrderBy(m => m.DisplayOrder))
+            {
+
+
+                if (menu.Title == "Menu Manager")
+                {
+
+                    <tr class="parent" data-child="@menu.Id" onclick="changeclass(@menu.Id)" style="background-color:rgba(105 36 61 / 8%)">
+
+
+
+                        <td colspan="2">@menu.Title</td>
+                        <td>@menu.MenuUrl</td>
+                        <td> <i class="fa-solid fa-bars-staggered p-r-5"></i> @menu.child.Count()</td>
+                        <td>@menu.DisplayOrder</td>
+                        <td>
+                            <div class="switch-form-group">
+                                <div class="switch switch-danger d-inline m-r-10">
+                                    <input disabled type="checkbox" id="menuActiveSwitch_@menu.Id" @(menu.IsActive ? "checked" : "")>
+                                    <label for="menuActiveSwitch_@menu.Id" class="cr"></label>
+                                </div>
+                                <label></label>
+                            </div>
+                        </td>
+                        <td class="status">
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr class="parent" data-child="@menu.Id" onclick="changeclass(@menu.Id)">
+
+                        <td colspan="2" class="text-danger">@menu.Title</td>
+                        <td>@menu.MenuUrl</td>
+                        <td class="text-danger"><i class="fa-solid fa-bars-staggered p-r-5"></i> @menu.child.Count()</td>
+                        <td><input style="width:60%" placeholder="@menu.DisplayOrder" type="number" onfocusout="changeDisplayOrder('@Url.Action("UpdateMenuDisplayOrder","MenuManager")','@menu.Id',this)" /></td>
+                        <td>
+                            @{
+                                if (ViewBag.update)
+                                {
+                                    <div class="switch-form-group">
+                                        <div class="switch switch-danger d-inline m-r-10">
+                                            <input type="checkbox" onclick="changeMenuIsactive('@Url.Action("UpdateMenuIsactive","MenuManager")','@menu.Id',this)" id="menuActiveSwitch_@menu.Id" @(menu.IsActive ? "checked" : "")>
+                                            <label for="menuActiveSwitch_@menu.Id" class="cr"></label>
+                                        </div>
+                                        <label></label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="switch-form-group">
+                                        <div class="switch switch-danger d-inline m-r-10">
+                                            <input disabled type="checkbox" onclick="changeMenuIsactive('@Url.Action("UpdateMenuIsactive","MenuManager")','@menu.Id',this)" id="menuActiveSwitch_@menu.Id" @(menu.IsActive ? "checked" : "")>
+                                            <label for="menuActiveSwitch_@menu.Id" class="cr"></label>
+                                        </div>
+                                        <label></label>
+                                    </div>
+                                }
+                            }
+
+                        </td>
+                        <td class="status">
+                            @{
+                                if (ViewBag.update)
+                                {
+                                    <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("UpdateMenu","MenuManager",new {Id=menu.Id })','Update Menu')"> <i data-toggle="tooltip" title="" class="fa fa-edit text-c-green " data-original-title="Edit"></i></a>
+                                }
+                            }
+
+
+                            @*<a style="cursor:pointer" onclick="PopUPAjaxDelete('@Url.Action("Delete","MenuManager",new {id=menu.Id })','Delete Menu')"><i data-toggle="tooltip" title="" class="fa fa-trash text-c-red " data-original-title="Delete"></i></a>*@
+                        </td>
+                    </tr>
+                }
+                foreach (var child in menu.child.OrderBy(m => m.DisplayOrder))
+                {
+
+                    <tr class="child @menu.Id hidden ">
+                        <td><i class="fa fa-right-long "></i></td>
+                        <td>@child.Title</td>
+                        <td>@child.MenuUrl</td>
+                        <td>@child.ParentId</td>
+                        <td><input style="width:60%" placeholder="@child.DisplayOrder" type="number" onfocusout="changeDisplayOrder('@Url.Action("UpdateMenuDisplayOrder","MenuManager")','@child.Id',this)" /></td>
+                        <td>
+                            @{
+                                if (ViewBag.update)
+                                {
+                                    <div class="switch-form-group">
+                                        <div class="switch switch-danger d-inline m-r-10">
+                                            <input type="checkbox" onclick="changeMenuIsactive('@Url.Action("UpdateMenuIsactive","MenuManager")','@child.Id',this)" id="menuActiveSwitch_@child.Id" @(child.IsActive ? "checked" : "")>
+                                            <label for="menuActiveSwitch_@child.Id" class="cr"></label>
+                                        </div>
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="switch-form-group">
+                                        <div class="switch switch-danger d-inline m-r-10">
+                                            <input disabled type="checkbox" onclick="changeMenuIsactive('@Url.Action("UpdateMenuIsactive","MenuManager")','@child.Id',this)" id="menuActiveSwitch_@child.Id" @(child.IsActive ? "checked" : "")>
+                                            <label for="menuActiveSwitch_@child.Id" class="cr"></label>
+                                        </div>
+
+                                    </div>
+                                }
+
+                            }
+
+                        </td>
+                        <td class="status">
+                            @{
+                                if (ViewBag.update)
+                                {
+                                    <a style="cursor:pointer" onclick="ShowPopUp('@Url.Action("UpdateMenu","MenuManager",new {id=child.Id })','Update Menu')"> <i data-toggle="tooltip" title="" class="fa fa-edit text-c-green " data-original-title="Edit"></i></a>
+                                }
+                            }
+
+                            @* <a style="cursor:pointer" onclick="PopUPAjaxDelete('@Url.Action("Delete","MenuManager",new {id=child.Id })','Delete Menu')"> <i data-toggle="tooltip" title="" class="fa fa-trash text-c-red " data-original-title="Delete"></i></a>*@
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+<script>
+    function changeclass(Id) {
+        console.log("clicked");
+        $("." + Id).toggleClass("hidden");
+    }
+                //$(document).ready(function () {
+
+                //    var table = document.querySelectorAll('.__table')[0];
+
+                //    var parents = table.querySelectorAll('.parent');
+                //    console.clear();
+                //    parents.forEach((p) => {
+
+                //        p.addEventListener('click', (el) => {
+                //            var classname = p.getAttribute("data-child");
+                //            var children = table.querySelectorAll('.' + classname);
+                //            children.forEach((c) => {
+                //                if (c.className.search("hidden") > -1) {
+                //                    c.className = c.className.replace("hidden", " ");
+                //                } else {
+                //                    c.className = c.className + ' hidden';
+                //                }
+                //            })
+                //        })
+                //    })
+                //});
+
+</script>
+
+
+

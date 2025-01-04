@@ -1,0 +1,168 @@
+﻿@using VotingAdmin.Web.Common.Paging;
+@using VotingAdmin.Web.Models.Reports;
+@model PagedResponse<VotingTransactinReport>
+
+<div id="TablePartial">
+    <section class="">
+        <div class="pcoded-wrapper">
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+
+                                    <ul class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="index-2.html"><i class="fa-solid fa-house"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="#!">Voting Reports </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <div class="card code-table">
+                                <div class="card-header cursor" data-toggle="collapse" href="#quick-search" aria-expanded="true">
+                                    <h5>Quick Search</h5>
+                                    <div class="card-header-right">
+                                        <p class="float-right m-t-5"><i class="fas fa-chevron-down  fa-1x "></i></p>
+                                    </div>
+                                </div>
+                                @* Quick Search/ Filter *@
+                                <div class="collapse" id="quick-search">
+                                    <partial name="_ReportFilter" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- [ configuration table ] start -->
+                                <!-- [ Fixed Header ] start -->
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="m-b-10">Contest Lists</h5>
+                                            <div class="card-header-right">
+                                              
+                                                <div class="btn-group card-option">
+                                                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                    </button>
+                                                    <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                                        <li id="btnexportfilter" class="dropdown-item"><a href="#!"><i data-feather="log-out"></i> Export to Excel</a>
+                                                        <li id="btnexportcsv" class="dropdown-item"><a href="#!"><i data-feather="log-out"></i> Export to CSV</a></li>
+                                                        <li id="btnexportPdf" class="dropdown-item"><a href="#!"><i data-feather="log-out"></i> Export to Pdf</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--table div-->
+                                        @* Users Table *@
+                                        <div class="card-block">
+                                          @* <partial name="_PaginationHeader" />*@
+                                            <div id="ReportTableWrapper" class="table-responsive">
+                                                <partial name="_ReportList" model="@Model" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/js/admin.pagination.js" asp-append-version="true"></script>
+    <script src="~/js/admin.users.js" asp-append-version="true"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize pagination settings object
+            Pagination.init({
+                ajax: true,
+                method: 'GET',
+                browserPath: '@Context.Request.Path',
+                fetchUrl: '@Url.Action("Index","VotingReport")',
+                selector: '#ReportTableWrapper'
+            });
+
+            // attach 'before' event handler to 'Pagination' object to get all field parameters for pagination
+            $(Pagination).on('before', function (e) {
+                e.preventDefault();
+                var usersFilterFormValues = $('#ReportFilterForm').serializeArray();
+                $.each(usersFilterFormValues, function (i, obj) {
+                    e.payload.paramsBuilder.addParameter(obj['name'], obj['value']);
+                });
+
+                e.payload.paramsBuilder.addParameters(getPaginationFieldParams());
+            });
+
+            addUsersPageHandlers();
+
+            function addUsersPageHandlers() {
+                addPaginationHandlers();
+
+                /* Custom Handlers */
+                $('#ReportFilterForm').on('submit', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                })
+
+                $('#btnReportFilter').on('click', function (e) {
+                    e.preventDefault();
+                    Pagination.getData();
+                    return false;
+                });
+
+                $('#btnexportfilter').on('click', function (e) {
+                    e.preventDefault();
+                    var paramsA = {
+                        Export: 1,
+
+                    };
+                    Pagination.ExportDataWithPagination('GET', paramsA, '@Url.Action("ExportReportWithFilter", "VotingReport")');
+                    return false;
+                });
+                $('#btnexportcsv').on('click', function (e) {
+                    e.preventDefault();
+                    var paramsA = {
+                        Export: 1,
+
+                    };
+                    Pagination.ExportDataWithPagination('GET', paramsA, '@Url.Action("ExportReportToCsv", "VotingReport")');
+                    return false;
+                });
+                $('#btnexportPdf').on('click', function (e) {
+                    e.preventDefault();
+                    var paramsA = {
+                        Export: 1,
+
+                    };
+                    Pagination.ExportDataWithPagination('GET', paramsA, '@Url.Action("ExportReporttoPdf", "VotingReport")');
+                    return false;
+                });
+
+
+            }
+        });
+
+    </script>
+
+
+
+
+}

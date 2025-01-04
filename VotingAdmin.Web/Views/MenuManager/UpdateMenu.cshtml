@@ -1,0 +1,95 @@
+﻿@using VotingAdmin.Web.Dtos.Menus;
+@using VotingAdmin.Web.Services.Menus;
+
+@model UpdateMenu
+@inject IMenuManagerService _menumanager
+
+<form asp-controller="MenuManager" asp-action="UpdateMenuAction" method="post"
+      enctype="multipart/form-data" autocomplete="off">
+    <div class="row">
+        <input asp-for="Id" hidden />
+        <div class="col-sm-6 mb-3">
+            <label asp-for="Title">Title</label>
+            <input asp-for="Title" type="text" class="form-control">
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        
+        <div class="col-sm-6 mb-3">
+            <label>Menu URL</label>
+            <input asp-for="MenuUrl " type="text" class="form-control">
+            <span asp-validation-for="MenuUrl" class="text-danger"></span>
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">Parent Menu</label>
+            <select asp-for="@Model.ParentId" class="form-control">
+                @{
+                    var menus = await _menumanager.GetAllParentMenu();
+                    if (menus != null)
+                    {
+                        <option value="0">No Parent</option>
+                        foreach (var menu in menus)
+                        {
+                            if (menu.Title != "Menu Manager")
+                            {
+                                <option value="@menu.Id">@menu.Title</option>
+                            }
+                        }
+
+                    }
+
+                }
+
+            </select>
+        </div>
+
+        <div class="col-sm-6 mb-3">
+            <label>Display Order</label>
+            <input asp-for="DisplayOrder" type="number" class="form-control" />
+            <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label for="exampleInputEmail1">Title Image</label>
+            <input asp-for="ImagePath" type="file" accept=".png, .jpg, .jpeg" onchange="onimagechange(this,'Iconchange')" class="form-control">
+            <img id="Iconchange" src="@Model.ImagePathurl" height="125" width="125" >
+            
+            <span asp-validation-for="ImagePath" class="text-danger"></span>
+        </div>
+        <div class="col-sm-6 mb-3">
+            <label>Status</label>
+            <div class="form-group">
+                <div class="checkbox checkbox-danger d-inline">
+                    <input type="checkbox" asp-for="IsActive" >
+                    <label asp-for="IsActive" class="cr">is Active.</label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+    </div>
+
+</form>
+<script>
+    function onimagechange(data, id) {
+
+        readURL(data, id);
+
+    }
+    function readURL(input, id) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+
+                var data = e.target.result;
+                $('#' + id).attr('src', e.target.result);
+                $('#' + id).removeAttr('hidden');
+
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    };
+</script>
+<partial name="_ValidationScriptsPartial" />

@@ -1,0 +1,161 @@
+﻿@using VotingAdmin.Web.Common.Paging;
+@using VotingAdmin.Web.Dtos;
+@using VotingAdmin.Web.Dtos.Merchants;
+@model BaseDgApiResponse<PagedResponse<MerchantListItem>>
+
+<div class="pcoded-wrapper">
+    <div class="pcoded-content">
+        <div class="pcoded-inner-content">
+            <!-- [ breadcrumb ] start -->
+            <div class="page-header">
+                <div class="page-block">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index-2.html"><i class="fa-solid fa-house"></i></a></li>
+                                <li class="breadcrumb-item"><a href="#!">Voting Merchants</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- [ breadcrumb ] end -->
+            <div class="main-body">
+                <div class="page-wrapper">
+                    <!-- [ Main Content ] start -->
+                    <div class="row">
+                        <!-- [ configuration table ] start -->
+                        <!-- [ Fixed Header ] start -->
+                        <div class="col-sm-12">
+                            <div class="card code-table">
+                                <div class="card-header cursor" data-toggle="collapse" href="#quick-search" aria-expanded="true">
+                                    <h5>Quick Search</h5>
+                                    <div class="card-header-right">
+
+                                        <p class="float-right m-t-5"><i class="fas fa-chevron-down  fa-1x "></i></p>
+                                    </div>
+                                </div>
+                                <div class="collapse show">
+                                    <div class="card-block">
+                                        <form id="merchantQuickSearchForm">
+                                            <div class="row">
+                                                <div class="col-md-2 ">
+                                                    <label>From</label>
+                                                    <input type="date" class="form-control" name="FromDate" placeholder="Start Date">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label>To</label>
+                                                    <input type="date" class="form-control" name="ToDate" placeholder="From">
+                                                </div>
+                                                <div class="col-md-2 mt-6">
+                                                    <input type="text" class="form-control" name="MerchantId" placeholder="Merchant ID">
+                                                </div>
+                                                <div class="col-md-2 mt-6">
+                                                    <input type="text" class="form-control" name="UserName" placeholder="Username">
+                                                </div>
+                                                <div class="col-md-2 mt-6">
+                                                    <button id="btnMerchantFilter" type="button" class="btn btn-md btn-primary form-control quick-btn">Search</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="m-b-10">Voting Merchant</h5>
+                                    <div class="card-header-right">
+                                        @*<a href="#" data-toggle="modal" data-target="#add-new">*@
+                                        <button type="button" class="btn btn-primary btn-shadow-2 btn-sm" onclick="ShowPopUp('@Url.Action("AddMerchant","Merchants")', 'Add Merchant')"><i class="fa-solid fa-plus"></i>Add Merchant</button>
+                                        @*</a>*@
+
+                                        <div class="btn-group card-option">
+                                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                            </button>
+                                            <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                                <li class="dropdown-item full-card"><a href="#!"><span><i class="fa fa-maximize pr-1"></i> maximize</span><span style="display:none"><i class="fa fa-minus pr-1"></i> Minimize</span></a></li>
+                                                <li class="dropdown-item "><a href="#!"><i class="fa fa-download pr-1"></i>Download</span></a></li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="card-block">
+                                    <!-- <div class="table-responsive">
+                                        <table id="zero-configuration" class="display table nowrap table-striped table-hover text-center" style="width:100%">
+                                            <thead class=""> -->
+
+                                    <partial name="_PaginationHeader" model="Model.Data" />
+
+                                    <div id="MerchantTableWrapper" class="table-responsive">
+                                        <!-- Merchant List Table -->
+                                        <partial name="_MerchantList" model="Model.Data" />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ Fixed Header ] end -->
+                    </div>
+                    <!-- [ Main Content ] end -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/js/admin.pagination.js" asp-append-version="true"></script>
+    <script src="~/js/admin.users.js" asp-append-version="true"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize pagination settings object
+            Pagination.init({
+                ajax: true,
+                method: 'GET',
+                browserPath: '@Context.Request.Path',
+                fetchUrl: '@Url.Action("Index", "Merchants")',
+                selector: '#MerchantTableWrapper'
+            });
+
+            // attach 'before' event handler to 'Pagination' object to get all field parameters for pagination
+            $(Pagination).on('before', function (e) {
+                e.preventDefault();
+                var merchantQuickSearchForm = $('#merchantQuickSearchForm').serializeArray();
+                $.each(merchantQuickSearchForm, function (i, obj) {
+                    e.payload.paramsBuilder.addParameter(obj['name'], obj['value']);
+                });
+
+                e.payload.paramsBuilder.addParameters(getPaginationFieldParams());
+            });
+
+            addUsersPageHandlers();
+
+            function addUsersPageHandlers() {
+                addPaginationHandlers();
+
+                /* Custom Handlers */
+                $('#merchantQuickSearchForm').on('submit', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                })
+
+                $('#btnMerchantFilter').on('click', function (e) {
+                    e.preventDefault();
+                    Pagination.getData();
+                    return false;
+                });
+            }
+        });
+    </script>
+}

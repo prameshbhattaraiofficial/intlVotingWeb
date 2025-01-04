@@ -1,0 +1,130 @@
+﻿@using VotingAdmin.Web.Dtos.Menus;
+
+@model List<Menuwithchield>
+
+
+
+<div class="pcoded-wrapper">
+    <div class="pcoded-content">
+        <div class="pcoded-inner-content">
+            <!-- [ breadcrumb ] start -->
+            <div class="page-header">
+                <div class="page-block">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index-2.html"><i class="fa-solid fa-house"></i></a></li>
+                                <li class="breadcrumb-item"><a href="#!">Menu Mangement</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- [ breadcrumb ] end -->
+            <div class="main-body">
+                <div class="page-wrapper">
+                    <!-- [ Main Content ] start -->
+                    <div class="row">
+                        <!-- [ configuration table ] start -->
+                        <!-- [ Fixed Header ] start -->
+                        <div class="col-sm-12">
+
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="m-b-10">Menu Management</h5>
+                                    <div class="card-header-right">
+                                        @{
+                                            if (ViewBag.create)
+                                            {
+                                                <a style="cursor:pointer" class="btn btn-primary btn-shadow-2 btn-sm text-white" onclick="ShowPopUp('@Url.Action("AddMenu","MenuManager")', 'Add Menu')"><i class="fa-solid fa-plus"></i>Add New</a>
+                                            }
+                                        }
+
+                                        <div class="btn-group card-option">
+                                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                            </button>
+                                            <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                                <li class="dropdown-item reload-card"><a href="#!"><i class="fa-solid fa-print"></i> Print</a></li>
+                                                <li class="dropdown-item close-card"><a href="#!"><i class="fa-solid fa-file-export"></i> Export to  Excel</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-block">
+                                    <div id="TablePartial">
+                                        <partial name="_MenuIndex" model="Model" />
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ Fixed Header ] end -->
+
+
+                    </div>
+                    <!-- [ Main Content ] end -->
+                </div>
+            </div>
+        </div>
+       
+
+        
+        @*<div id="edit" class="modal fade bd-example-modal-lg" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myLargeModalLabel">Edit Menu Management</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-sm-6 mb-3">
+                                    <label for="exampleInputEmail1">Title</label>
+                                    <input type="email" class="form-control">
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <label for="exampleInputEmail1">Title Image</label>
+                                    <input type="file" class="form-control">
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <label for="exampleInputEmail1">Menu URL</label>
+                                    <input type="email" class="form-control">
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <label for="exampleInputEmail1">Parent Menu</label>
+                                    <select class="form-control">
+                                        <option>Select Parent Menu</option>
+                                        <option>Menu 1</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <label for="exampleInputEmail1">Display Order</label>
+                                    <input type="email" class="form-control">
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <label>Status</label>
+                                    <div class="form-group">
+                                        <div class="checkbox checkbox-danger d-inline">
+                                            <input type="checkbox" name="Free" id="Free">
+                                            <label for="Free" class="cr">is Active.</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    </div>
+</div>

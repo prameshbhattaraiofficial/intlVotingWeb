@@ -1,0 +1,102 @@
+﻿@using VotingAdmin.Web.Dtos.Roles;
+
+@model RoleList
+@*@if (ViewBag.ajax)
+    {
+        Layout = null;
+    }*@
+
+<section class="">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header">
+                    <div class="page-block">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index-2.html"><i class="fa-solid fa-house"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="#!">Users</a></li>
+                                    <li class="breadcrumb-item"><a href="#!">Users Roles</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <!-- [ configuration table ] start -->
+                            <!-- [ Fixed Header ] start -->
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="m-b-10">Users Roles</h5>
+                                        <div class="card-header-right">
+                                            @{
+                                                if (ViewBag.create)
+                                                {
+                                                    <a onclick="ShowPopUp('@Url.Action("Create","Roles")','Add Role','modal-dialog modal-md')" class="btn btn-primary btn-shadow-2 btn-sm text-white">
+                                                        <i class="fa-solid fa-plus"></i> Add New
+                                                    </a>
+                                                }
+                                            }
+
+
+                                            <div class="btn-group card-option">
+                                                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                </button>
+                                                <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                                    <li class="dropdown-item full-card"><a href="#!"><span><i data-feather="maximize"></i>maximize</span></a></li>
+                                                    <li class="dropdown-item minimize-card"><a href="#!"><i data-feather="minimize"></i>collapse</span></a></li>
+                                                    <li class="dropdown-item reload-card"><a href="#!"><i data-feather="printer"></i> Print</a></li>
+                                                    <li class="dropdown-item close-card"><a href="#!"><i data-feather="log-out"></i> Export to Excel</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div id="TablePartial">
+            <partial name="_RoleIndex" model="Model" />
+        </div>*@
+                                    <div id="RolesTableWrapper" class="table-responsive">
+                                        <partial name="_RoleIndex" model="@Model" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ Fixed Header ] end -->
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/admin.pagination.js" asp-append-version="true"></script>
+
+    <script src="~/js/Roles/RoleIndex.js"></script>
+    <script src="~/js/admin.users.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            // Initialize pagination settings object
+            Pagination.init({
+                ajax: true,
+                method: 'GET',
+                browserPath: '@Context.Request.Path',
+                fetchUrl: '@Url.Action("Index", "Roles")',
+                selector: '#RolesTableWrapper'
+            });
+            addPaginationHandlers();
+        });
+    </script>
+
+
+}

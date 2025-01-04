@@ -1,0 +1,45 @@
+﻿<div class="card-block">
+    <form id="ContestantFilterForm" class="row">
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <input type="date" onkeydown="return false" max="@DateTime.Now.ToString("yyyy-MM-dd")" value="@DateTime.Now.ToString("yyyy-MM-dd")" name="FromDate" id="d_today" class="form-control" placeholder="FromDate">
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <input type="date" onkeydown="return false" value="@DateTime.Now.ToString("yyyy-MM-dd")" name="ToDate" class="form-control" placeholder="ToDate">
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <select name="ContestId"
+                        onchange="Cascadedropdown('@Url.Action("GetSubContest","VotingContestant")','?ContestId='+this.value,'subContestforchange');"
+                        class="form-control">
+                    <option value="0">All</option>
+                    @foreach (var contest in @ViewBag.Contestlist)
+                    {
+                        <option value="@contest.Id">@contest.Text</option>
+                    }
+
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <select name="SubContestId" class="form-control" id="subContestforchange" asp-items="@ViewBag.SubContestlist">
+                    <option value="0">All</option>
+                </select>
+            </div>
+        </div>
+
+       
+        <input type="hidden" id="Export" name="Export" />
+        <div class="col-sm-6 col-md-2">
+            <button type="submit" id="btnContestantFilter" class="btn btn-md btn-primary form-control quick-btn">Filter</button>
+        </div>
+    </form>
+</div>
+
+<script type='text/javascript' src="~/js/ValidationScript.js"></script>
